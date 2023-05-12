@@ -1,6 +1,7 @@
 package com.residencia.biblioteca.entities;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,91 +10,104 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "livro")
+@Table(name = "livro") // indica a qual tabela ela se refere no banco
 public class Livro {
+
+	@Id // indica que esse atributo é chave primaria (obrigatorio)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // indica se o java ou o banco de dados será responsavel pelo
+														// autoincremento
+	@Column(name = "codigolivro")
+	private Integer codigoLivro;
+
+	@Column(name = "nomelivro")
+	private String nomeLivro;
+
+	@Column(name = "nomeautor")
+	private String nomeAutor;
+
+	@Column(name = "datalancamento")
+	private Date dataLancamento;
+
+	@Column(name = "codigoisbn")
+	private Integer codigoIsbn;
+
+	@Column(name = "codigoeditora")
+	private Integer codigoEditora;
+
+	// cardinalidade 1:N
+	@OneToMany(mappedBy = "livro") // linkando com o "livro" criado no emprestimo
+	private List<Emprestimo> emprestimos; // 1 livro pode ter N empréstimos
+
+	@ManyToOne
+	@JoinColumn(name = "codigoeditora", referencedColumnName = "codigoeditora")
+	private Editora editora; // 1 livro só pode ser de 1 editora
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column (name = "codigoLivro")
-	private Integer codigolivro;
 	
-	@Column (name = "nomeLivro")
-	private String nomelivro;
-	
-	@Column (name = "nomeAutor")
-	private String nomeautor;
-	
-	@Column (name = "dataLancamento")
-	private Date datalancamento;
-	
-	@Column (name = "codigoIsbn")
-	private Integer codigoisbn;
-	
-									@ManyToOne
-									@JoinColumn (name = "codigoeditora", referencedColumnName = "codigoeditora")
-									private Editora editora;
-									
-									@ManyToOne
-									@JoinColumn (name = "codigolivro", referencedColumnName = "codigolivro")
-									private Emprestimo emprestimo;
-	
-	public Integer getCodigolivro() {
-	return codigolivro;
+	public Integer getCodigoLivro() {
+		return codigoLivro;
 	}
 
-	public void setCodigolivro(Integer codigolivro) {
-		this.codigolivro = codigolivro;
+	public void setCodigoLivro(Integer codigoLivro) {
+		this.codigoLivro = codigoLivro;
 	}
 
-	public String getNomelivro() {
-		return nomelivro;
+	public String getNomeLivro() {
+		return nomeLivro;
 	}
 
-	public void setNomelivro(String nomelivro) {
-		this.nomelivro = nomelivro;
+	public void setNomeLivro(String nomeLivro) {
+		this.nomeLivro = nomeLivro;
 	}
 
-	public String getNomeautor() {
-		return nomeautor;
+	public String getNomeAutor() {
+		return nomeAutor;
 	}
 
-	public void setNomeautor(String nomeautor) {
-		this.nomeautor = nomeautor;
+	public void setNomeAutor(String nomeAutor) {
+		this.nomeAutor = nomeAutor;
 	}
 
-	public Date getDatalancamento() {
-		return datalancamento;
+	public Date getDataLancamento() {
+		return dataLancamento;
 	}
 
-	public void setDatalancamento(Date datalancamento) {
-		this.datalancamento = datalancamento;
+	public void setDataLancamento(Date dataLancamento) {
+		this.dataLancamento = dataLancamento;
 	}
 
-	public Integer getCodigoisbn() {
-		return codigoisbn;
+	public Integer getCodigoIsbn() {
+		return codigoIsbn;
 	}
 
-	public void setCodigoisbn(Integer codigoisbn) {
-		this.codigoisbn = codigoisbn;
+	public void setCodigoIsbn(Integer codigoIsbn) {
+		this.codigoIsbn = codigoIsbn;
 	}
 
-										public Editora getEditora() {
-											return editora;
-										}
+	public Integer getCodigoEditora() {
+		return codigoEditora;
+	}
 
-										public void setEditora(Editora editora) {
-											this.editora = editora;
-										}
+	public void setCodigoEditora(Integer codigoEditora) {
+		this.codigoEditora = codigoEditora;
+	}
 
-										public Emprestimo getEmprestimo() {
-											return emprestimo;
-										}
+	public List<Emprestimo> getEmprestimos() {
+		return emprestimos;
+	}
 
-										public void setEmprestimo(Emprestimo emprestimo) {
-											this.emprestimo = emprestimo;
-										}
-										
+	public void setEmprestimos(List<Emprestimo> emprestimos) {
+		this.emprestimos = emprestimos;
+	}
+
+	public Editora getEditora() {
+		return editora;
+	}
+
+	public void setEditora(Editora editora) {
+		this.editora = editora;
+	}
 }

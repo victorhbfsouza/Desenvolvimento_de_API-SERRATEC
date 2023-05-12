@@ -11,36 +11,35 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "editora")
+@Table(name = "editora") // indica a qual tabela ela se refere no banco
 public class Editora {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column (name = "codigoEditora")
-	private Integer codigoeditora;
-	
-	@Column (name = "nome")
-	private String nome;
-	
-	@Column (name = "imagem_nome")
-	private String imagem_nome;
-	
-	@Column (name = "imagem_fileName")
-	private String imagem_filename;
-	
-	@Column (name = "imagem_url")
-	private String imagem_url;
-	
-						@OneToMany (mappedBy = "editora")
-						private List <Livro> livros;
-						
 
-	public Integer getCodigoeditora() {
-		return codigoeditora;
+	@Id // indica que esse atributo é chave primaria (obrigatorio)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // indica se o java ou o banco de dados será responsavel pelo autoincremento
+	@Column(name = "codigoeditora")
+	private Integer codigoEditora;
+
+	@Column(name = "nome")
+	private String nome;
+
+	@Column(name = "imagem-nome")
+	private String imagemNome;
+
+	@Column(name = "imagem-filename")
+	private String imagemFilename;
+
+	@Column(name = "imagem-url")
+	private String imagemUrl;
+	
+	@OneToMany(mappedBy = "editora")
+	private List<Livro> livros;
+
+	public Integer getCodigoEditora() {
+		return codigoEditora;
 	}
 
-	public void setCodigoeditora(Integer codigoeditora) {
-		this.codigoeditora = codigoeditora;
+	public void setCodigoEditora(Integer codigoEditora) {
+		this.codigoEditora = codigoEditora;
 	}
 
 	public String getNome() {
@@ -51,36 +50,35 @@ public class Editora {
 		this.nome = nome;
 	}
 
-	public String getImagem_nome() {
-		return imagem_nome;
+	public String getImagemNome() {
+		return imagemNome;
 	}
 
-	public void setImagem_nome(String imagem_nome) {
-		this.imagem_nome = imagem_nome;
+	public void setImagemNome(String imagemNome) {
+		this.imagemNome = imagemNome;
 	}
 
-	public String getImagem_filename() {
-		return imagem_filename;
+	public String getImagemFilename() {
+		return imagemFilename;
 	}
 
-	public void setImagem_filename(String imagem_filename) {
-		this.imagem_filename = imagem_filename;
+	public void setImagemFilename(String imagemFilename) {
+		this.imagemFilename = imagemFilename;
 	}
 
-	public String getImagem_url() {
-		return imagem_url;
+	public String getImagemUrl() {
+		return imagemUrl;
 	}
 
-	public void setImagem_url(String imagem_url) {
-		this.imagem_url = imagem_url;
+	public void setImagemUrl(String imagemUrl) {
+		this.imagemUrl = imagemUrl;
 	}
 
-								public List<Livro> getLivros() {
-								return livros;
-								}
+	public List<Livro> getLivros() {
+		return livros;
+	}
 
-								public void setLivros(List<Livro> livros) {
-								this.livros = livros;
-								}
-	
+	public void setLivros(List<Livro> livros) {
+		this.livros = livros;
+	}
 }

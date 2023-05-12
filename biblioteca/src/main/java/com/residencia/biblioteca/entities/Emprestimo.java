@@ -1,8 +1,6 @@
 package com.residencia.biblioteca.entities;
 
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,64 +9,86 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "emprestimo")
+@Table(name = "emprestimo") // indica a qual tabela ela se refere no banco
 public class Emprestimo {
+
+	@Id // indica que esse atributo é chave primaria (obrigatorio)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // indica se o java ou o banco de dados será responsavel pelo autoincremento
+	@Column(name = "codigoemprestimo")
+	private Integer codigoEmprestimo;
+
+	@Column(name = "numeromatriculaaluno")
+	private String numeroMatriculaAluno;
+
+	@Column(name = "codigolivro")
+	private Integer codigoLivro;
+
+	@Column(name = "dataemprestimo")
+	private Date dataEmprestimo;
+
+	@Column(name = "dataentrega")
+	private Date dataEntrega;
+
+	@Column(name = "valoremprestimo")
+	private Double valorEmprestimo;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "codigoEmprestimo")
-	private Integer codigoemprestimo;
+	@ManyToOne //cardinalidade N:1
+	@JoinColumn(name = "numeromatriculaaluno", referencedColumnName = "numeromatriculaaluno")
+	private Aluno aluno; // 1 emprestimo só pode ser de 1 aluno
 	
-	@Column(name = "dataEmprestimo")
-	private Date dataemprestimo;
-	
-	@Column(name = "dataEntrega")
-	private Date dataentrega;
-	
-	@Column(name = "valorEmprestimo")
-	private BigDecimal valoremprestimo;
-	
-	@ManyToOne
-	@JoinColumn (name = "numeromatriculaaluno", referencedColumnName = "numeromatriculaaluno")
-	private Aluno aluno;
-	
-									@OneToMany (mappedBy = "emprestimo")
-									private List <Livro> livros;
+	@ManyToOne //cardinalidade N:1
+	@JoinColumn(name = "codigolivro", referencedColumnName = "codigolivro")
+	private Livro livro; // 1 emprestimo só pode ser de 1 livro
 
-	public Integer getCodigoemprestimo() {
-		return codigoemprestimo;
+	public Integer getCodigoEmprestimo() {
+		return codigoEmprestimo;
 	}
 
-	public void setCodigoemprestimo(Integer codigoemprestimo) {
-		this.codigoemprestimo = codigoemprestimo;
+	public void setCodigoEmprestimo(Integer codigoEmprestimo) {
+		this.codigoEmprestimo = codigoEmprestimo;
 	}
 
-		public Date getDataemprestimo() {
-		return dataemprestimo;
+	public String getNumeroMatriculaAluno() {
+		return numeroMatriculaAluno;
 	}
 
-	public void setDataemprestimo(Date dataemprestimo) {
-		this.dataemprestimo = dataemprestimo;
+	public void setNumeroMatriculaAluno(String numeroMatriculaAluno) {
+		this.numeroMatriculaAluno = numeroMatriculaAluno;
 	}
 
-	public Date getDataentrega() {
-		return dataentrega;
+	public Integer getCodigoLivro() {
+		return codigoLivro;
 	}
 
-	public void setDataentrega(Date dataentrega) {
-		this.dataentrega = dataentrega;
+	public void setCodigoLivro(Integer codigoLivro) {
+		this.codigoLivro = codigoLivro;
 	}
 
-	public BigDecimal getValoremprestimo() {
-		return valoremprestimo;
+	public Date getDataEmprestimo() {
+		return dataEmprestimo;
 	}
 
-	public void setValoremprestimo(BigDecimal valoremprestimo) {
-		this.valoremprestimo = valoremprestimo;
+	public void setDataEmprestimo(Date dataEmprestimo) {
+		this.dataEmprestimo = dataEmprestimo;
+	}
+
+	public Date getDataEntrega() {
+		return dataEntrega;
+	}
+
+	public void setDataEntrega(Date dataEntrega) {
+		this.dataEntrega = dataEntrega;
+	}
+
+	public Double getValorEmprestimo() {
+		return valorEmprestimo;
+	}
+
+	public void setValorEmprestimo(Double valorEmprestimo) {
+		this.valorEmprestimo = valorEmprestimo;
 	}
 
 	public Aluno getAluno() {
@@ -79,11 +99,12 @@ public class Emprestimo {
 		this.aluno = aluno;
 	}
 
-										public List<Livro> getLivros() {
-											return livros;
-											}
-										
-										public void setLivros(List<Livro> livros) {
-											this.livros = livros;
-											}
+	public Livro getLivro() {
+		return livro;
+	}
+
+	public void setLivro(Livro livro) {
+		this.livro = livro;
+	}
+	
 }

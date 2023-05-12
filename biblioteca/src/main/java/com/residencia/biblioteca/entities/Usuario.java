@@ -8,52 +8,52 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuario") // indica a qual tabela ela se refere no banco
 public class Usuario {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column (name = "user_id")
-	private Integer user_id;
-	
-	@Column (name = "user_name")
-	private String user_name;
-	
-	@Column (name = "user_email")
-	private String user_email;
-	
-	@Column (name = "user_password")
-	private String user_password;
 
-	public Integer getUser_id() {
-		return user_id;
+	@Id // indica que esse atributo é chave primaria (obrigatorio)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // indica se o java ou o banco de dados será responsavel pelo autoincremento
+	@Column(name = "user_id")
+	private Integer userId;
+
+	@Column(name = "user_nome")
+	private String userNome;
+
+	@Column(name = "user_email")
+	private String userEmail;
+
+	@Column(name = "user_password")
+	private String userPassword;
+
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUser_id(Integer user_id) {
-		this.user_id = user_id;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
-	public String getUser_name() {
-		return user_name;
+	public String getUserNome() {
+		return userNome;
 	}
 
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUserNome(String userNome) {
+		this.userNome = userNome;
 	}
 
-	public String getUser_email() {
-		return user_email;
+	public String getUserEmail() {
+		return userEmail;
 	}
 
-	public void setUser_email(String user_email) {
-		this.user_email = user_email;
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 
-	public String getUser_password() {
-		return user_password;
+	public String getUserPassword() {
+		return userPassword;
 	}
 
-	public void setUser_password(String user_password) {
-		this.user_password = user_password;
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
 	}
 }
