@@ -12,11 +12,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "emprestimo") // indica a qual tabela ela se refere no banco
+@Table(name = "emprestimo")
 public class Emprestimo {
 
-	@Id // indica que esse atributo é chave primaria (obrigatorio)
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // indica se o java ou o banco de dados será responsavel pelo autoincremento
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "codigoemprestimo")
 	private Integer codigoEmprestimo;
 
@@ -35,13 +35,13 @@ public class Emprestimo {
 	@Column(name = "valoremprestimo")
 	private Double valorEmprestimo;
 	
-	@ManyToOne //cardinalidade N:1
+	@ManyToOne
 	@JoinColumn(name = "numeromatriculaaluno", referencedColumnName = "numeromatriculaaluno")
-	private Aluno aluno; // 1 emprestimo só pode ser de 1 aluno
+	private Aluno aluno;
 	
-	@ManyToOne //cardinalidade N:1
+	@ManyToOne
 	@JoinColumn(name = "codigolivro", referencedColumnName = "codigolivro")
-	private Livro livro; // 1 emprestimo só pode ser de 1 livro
+	private Livro livro;
 
 	public Integer getCodigoEmprestimo() {
 		return codigoEmprestimo;
@@ -106,5 +106,4 @@ public class Emprestimo {
 	public void setLivro(Livro livro) {
 		this.livro = livro;
 	}
-	
 }
