@@ -1,5 +1,6 @@
 package com.residencia.biblioteca.entities;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -12,35 +13,29 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "emprestimo")
+@Table (name = "emprestimo")
 public class Emprestimo {
-
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "codigoemprestimo")
-	private Integer codigoEmprestimo;
-
-	@Column(name = "numeromatriculaaluno")
-	private String numeroMatriculaAluno;
-
-	@Column(name = "codigolivro")
-	private Integer codigoLivro;
-
-	@Column(name = "dataemprestimo")
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column (name = "codigoemprestimo")
+	private Integer codigoEmprestimo;	
+	
+	@Column (name = "dataemprestimo")
 	private Date dataEmprestimo;
-
-	@Column(name = "dataentrega")
+	
+	@Column (name = "dataentrega")
 	private Date dataEntrega;
-
-	@Column(name = "valoremprestimo")
-	private Double valorEmprestimo;
+	
+	@Column (name = "valoremprestimo")
+	private BigDecimal valorEmprestimo ;
 	
 	@ManyToOne
-	@JoinColumn(name = "numeromatriculaaluno", referencedColumnName = "numeromatriculaaluno")
+	@JoinColumn (name = "numeromatriculaaluno" , referencedColumnName = "numeromatriculaaluno")
 	private Aluno aluno;
 	
 	@ManyToOne
-	@JoinColumn(name = "codigolivro", referencedColumnName = "codigolivro")
+	@JoinColumn (name = "codigolivro" , referencedColumnName = "codigolivro")
 	private Livro livro;
 
 	public Integer getCodigoEmprestimo() {
@@ -49,23 +44,7 @@ public class Emprestimo {
 
 	public void setCodigoEmprestimo(Integer codigoEmprestimo) {
 		this.codigoEmprestimo = codigoEmprestimo;
-	}
-
-	public String getNumeroMatriculaAluno() {
-		return numeroMatriculaAluno;
-	}
-
-	public void setNumeroMatriculaAluno(String numeroMatriculaAluno) {
-		this.numeroMatriculaAluno = numeroMatriculaAluno;
-	}
-
-	public Integer getCodigoLivro() {
-		return codigoLivro;
-	}
-
-	public void setCodigoLivro(Integer codigoLivro) {
-		this.codigoLivro = codigoLivro;
-	}
+	}	
 
 	public Date getDataEmprestimo() {
 		return dataEmprestimo;
@@ -83,11 +62,11 @@ public class Emprestimo {
 		this.dataEntrega = dataEntrega;
 	}
 
-	public Double getValorEmprestimo() {
+	public BigDecimal getValorEmprestimo() {
 		return valorEmprestimo;
 	}
 
-	public void setValorEmprestimo(Double valorEmprestimo) {
+	public void setValorEmprestimo(BigDecimal valorEmprestimo) {
 		this.valorEmprestimo = valorEmprestimo;
 	}
 
@@ -106,4 +85,6 @@ public class Emprestimo {
 	public void setLivro(Livro livro) {
 		this.livro = livro;
 	}
+	
+	
 }

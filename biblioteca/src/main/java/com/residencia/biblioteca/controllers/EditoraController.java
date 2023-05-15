@@ -13,28 +13,28 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.residencia.biblioteca.entities.Editora;
 import com.residencia.biblioteca.services.EditoraService;
 
 @RestController
-@RequestMapping("/editora")
+@RequestMapping("/editoras")
 public class EditoraController {
+	
 	@Autowired
 	EditoraService editoraService;
 	
-	@GetMapping
-	public ResponseEntity <List<Editora>> getAllEditora() {
-		return  new ResponseEntity <> (editoraService.getAllEditoras(),
+	@GetMapping	
+	public ResponseEntity<List<Editora>>  getAllEditoras(){
+		return new ResponseEntity<>(editoraService.getAllEditoras(),
 				HttpStatus.OK);
 	}
 	
 	@GetMapping ("/{id}")
-	public ResponseEntity <Editora> getEditoraById(Integer id) {
+	public ResponseEntity<Editora> getEditoraById(@PathVariable Integer id) {
+		
 		Editora editoraResponse = editoraService.getEditoraById(id);
-		if(null == editoraResponse)
-			return new ResponseEntity<>(null,
-					HttpStatus.NOT_FOUND);
+		if(editoraResponse == null)
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		else
 			return new ResponseEntity<>(editoraResponse,
 					HttpStatus.OK);
@@ -42,22 +42,26 @@ public class EditoraController {
 	
 	@PostMapping
 	public ResponseEntity<Editora> saveEditora(@RequestBody Editora editora) {
+		
 		return new ResponseEntity<>(editoraService.saveEditora(editora),
-			HttpStatus.CREATED);
+				HttpStatus.CREATED);
 	}
 	
 	@PutMapping
 	public ResponseEntity<Editora> updateEditora(@RequestBody Editora editora, Integer id) {
+		
 		return new ResponseEntity<> (editoraService.updateEditora(editora, id),
-			HttpStatus.OK);
+				HttpStatus.OK);
 	}
 	
 	@DeleteMapping ("/{id}")
-	public ResponseEntity <Boolean> delEditora(@PathVariable Integer id) {
-		Boolean resp = editoraService.delEditora(id);
-		if (resp)
-			return new ResponseEntity<>(resp, HttpStatus.OK);
+	public ResponseEntity<Boolean> deleteEditora(@PathVariable Integer id) {
+		
+		if(editoraService.delEditora(id) == false)
+			return new ResponseEntity<>(false,
+					HttpStatus.NOT_MODIFIED);
 		else
-			return new ResponseEntity<>(resp, HttpStatus.NOT_MODIFIED);
+			return new ResponseEntity<>(editoraService.delEditora(id),
+					HttpStatus.OK);		
 	}
 }

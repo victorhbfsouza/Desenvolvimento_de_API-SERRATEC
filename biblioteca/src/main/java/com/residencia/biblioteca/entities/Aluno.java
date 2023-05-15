@@ -12,41 +12,40 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "aluno") // indica a qual tabela ela se refere no banco
-public class Aluno {
-
-	@Id // indica que esse atributo é chave primaria (obrigatorio)
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // indica se o java ou o banco de dados será responsavel pelo autoincremento
-	@Column(name = "numeromatriculaaluno")
+@Table (name = "aluno")
+public class Aluno {	
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column (name = "numeromatriculaaluno")
 	private Integer numeroMatriculaAluno;
-
-	@Column(name = "nome")
+	
+	@Column (name = "nome")
 	private String nome;
-
-	@Column(name = "datanascimento")
+	
+	@Column (name = "datanascimento")
 	private Date dataNascimento;
-
-	@Column(name = "cpf")
+	
+	@Column (name = "cpf")
 	private String cpf;
-
-	@Column(name = "logradouro")
+	
+	@Column (name = "logradouro")
 	private String logradouro;
-
-	@Column(name = "numerologradouro")
+	
+	@Column (name = "numerologradouro")
 	private String numeroLogradouro;
-
-	@Column(name = "complemento")
+	
+	@Column (name = "complemento")
 	private String complemento;
-
-	@Column(name = "bairro")
+	
+	@Column (name = "bairro")
 	private String bairro;
-
-	@Column(name = "cidade")
+	
+	@Column (name = "cidade")
 	private String cidade;
 	
-	//cardinalidade 1:N
-	@OneToMany(mappedBy = "aluno") //linkando com o "aluno" criado no emprestimo
-	private List<Emprestimo> emprestimos; // 1 aluno pode ter N empréstimos
+	@OneToMany (mappedBy = "aluno")
+	private List<Emprestimo> emprestimos;
 
 	public Integer getNumeroMatriculaAluno() {
 		return numeroMatriculaAluno;
@@ -127,4 +126,6 @@ public class Aluno {
 	public void setEmprestimos(List<Emprestimo> emprestimos) {
 		this.emprestimos = emprestimos;
 	}
+	
+	
 }

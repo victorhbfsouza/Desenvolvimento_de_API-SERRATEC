@@ -14,42 +14,36 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "livro") // indica a qual tabela ela se refere no banco
+@Table (name = "livro")
 public class Livro {
 
-	@Id // indica que esse atributo é chave primaria (obrigatorio)
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // indica se o java ou o banco de dados será responsavel pelo
-														// autoincremento
-	@Column(name = "codigolivro")
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column (name = "codigolivro")
 	private Integer codigoLivro;
-
-	@Column(name = "nomelivro")
+	
+	@Column (name = "nomelivro")
 	private String nomeLivro;
-
-	@Column(name = "nomeautor")
+	
+	@Column (name = "nomeautor")
 	private String nomeAutor;
-
-	@Column(name = "datalancamento")
+	
+	@Column (name = "datalancamento")
 	private Date dataLancamento;
-
-	@Column(name = "codigoisbn")
-	private Integer codigoIsbn;
-
-	@Column(name = "codigoeditora")
-	private Integer codigoEditora;
-
-	// cardinalidade 1:N
-	@OneToMany(mappedBy = "livro") // linkando com o "livro" criado no emprestimo
-	private List<Emprestimo> emprestimos; // 1 livro pode ter N empréstimos
-
+	
+	@Column (name = "codigoisbn")
+	private Integer codigoIsbn;	
+	
 	@ManyToOne
-	@JoinColumn(name = "codigoeditora", referencedColumnName = "codigoeditora")
-	private Editora editora; // 1 livro só pode ser de 1 editora
+	@JoinColumn (name = "codigoeditora" , referencedColumnName = "codigoeditora")
+	private Editora editora;
 	
-	
+	@OneToMany (mappedBy = "livro")
+	private List<Emprestimo> emprestimos;
+
 	public Integer getCodigoLivro() {
 		return codigoLivro;
-	}
+	}	
 
 	public void setCodigoLivro(Integer codigoLivro) {
 		this.codigoLivro = codigoLivro;
@@ -87,12 +81,12 @@ public class Livro {
 		this.codigoIsbn = codigoIsbn;
 	}
 
-	public Integer getCodigoEditora() {
-		return codigoEditora;
+	public Editora getEditora() {
+		return editora;
 	}
 
-	public void setCodigoEditora(Integer codigoEditora) {
-		this.codigoEditora = codigoEditora;
+	public void setEditora(Editora editora) {
+		this.editora = editora;
 	}
 
 	public List<Emprestimo> getEmprestimos() {
@@ -103,11 +97,7 @@ public class Livro {
 		this.emprestimos = emprestimos;
 	}
 
-	public Editora getEditora() {
-		return editora;
-	}
+	
 
-	public void setEditora(Editora editora) {
-		this.editora = editora;
-	}
+	
 }

@@ -13,28 +13,28 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.residencia.biblioteca.entities.Usuario;
 import com.residencia.biblioteca.services.UsuarioService;
 
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
+	
 	@Autowired
 	UsuarioService usuarioService;
 	
-	@GetMapping
-	public ResponseEntity <List<Usuario>> getAllUsuarios() {
-		return  new ResponseEntity <> (usuarioService.getAllUsuarios(),
+	@GetMapping	
+	public ResponseEntity<List<Usuario>>  getAllUsuarios(){
+		return new ResponseEntity<>(usuarioService.getAllUsuarios(),
 				HttpStatus.OK);
 	}
 	
 	@GetMapping ("/{id}")
-	public ResponseEntity <Usuario> getUsuarioById(Integer id) {
+	public ResponseEntity<Usuario> getUsuarioById(@PathVariable Integer id) {
+		
 		Usuario usuarioResponse = usuarioService.getUsuarioById(id);
-		if(null == usuarioResponse)
-			return new ResponseEntity<>(null,
-					HttpStatus.NOT_FOUND);
+		if(usuarioResponse == null)
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		else
 			return new ResponseEntity<>(usuarioResponse,
 					HttpStatus.OK);
@@ -42,22 +42,26 @@ public class UsuarioController {
 	
 	@PostMapping
 	public ResponseEntity<Usuario> saveUsuario(@RequestBody Usuario usuario) {
+		
 		return new ResponseEntity<>(usuarioService.saveUsuario(usuario),
-			HttpStatus.CREATED);
+				HttpStatus.CREATED);
 	}
 	
 	@PutMapping
 	public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario, Integer id) {
+		
 		return new ResponseEntity<> (usuarioService.updateUsuario(usuario, id),
-			HttpStatus.OK);
+				HttpStatus.OK);
 	}
 	
 	@DeleteMapping ("/{id}")
-	public ResponseEntity <Boolean> delEditora(@PathVariable Integer id) {
-		Boolean resp = usuarioService.delUsuario(id);
-		if (resp)
-			return new ResponseEntity<>(resp, HttpStatus.OK);
+	public ResponseEntity<Boolean> deleteUsuario(@PathVariable Integer id) {
+		
+		if(usuarioService.delUsuario(id) == false)
+			return new ResponseEntity<>(false,
+					HttpStatus.NOT_MODIFIED);
 		else
-			return new ResponseEntity<>(resp, HttpStatus.NOT_MODIFIED);
+			return new ResponseEntity<>(usuarioService.delUsuario(id),
+					HttpStatus.OK);		
 	}
 }

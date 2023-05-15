@@ -11,27 +11,27 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "editora") // indica a qual tabela ela se refere no banco
+@Table (name = "editora")
 public class Editora {
-
-	@Id // indica que esse atributo é chave primaria (obrigatorio)
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // indica se o java ou o banco de dados será responsavel pelo autoincremento
-	@Column(name = "codigoeditora")
+	
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column (name = "codigoeditora")
 	private Integer codigoEditora;
-
-	@Column(name = "nome")
+	
+	@Column (name = "nome")
 	private String nome;
-
-	@Column(name = "imagem-nome")
+	
+	@Column (name = "imagem_nome")
 	private String imagemNome;
-
-	@Column(name = "imagem-filename")
-	private String imagemFilename;
-
-	@Column(name = "imagem-url")
+	
+	@Column (name = "imagem_filename")
+	private String imagemFileName;
+	
+	@Column (name = "imagem_url")
 	private String imagemUrl;
 	
-	@OneToMany(mappedBy = "editora")
+	@OneToMany (mappedBy = "editora")
 	private List<Livro> livros;
 
 	public Integer getCodigoEditora() {
@@ -58,12 +58,12 @@ public class Editora {
 		this.imagemNome = imagemNome;
 	}
 
-	public String getImagemFilename() {
-		return imagemFilename;
+	public String getImagemFileName() {
+		return imagemFileName;
 	}
 
-	public void setImagemFilename(String imagemFilename) {
-		this.imagemFilename = imagemFilename;
+	public void setImagemFileName(String imagemFileName) {
+		this.imagemFileName = imagemFileName;
 	}
 
 	public String getImagemUrl() {
@@ -81,4 +81,7 @@ public class Editora {
 	public void setLivros(List<Livro> livros) {
 		this.livros = livros;
 	}
+
+	
+	
 }

@@ -8,21 +8,21 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "usuario") // indica a qual tabela ela se refere no banco
+@Table (name = "usuario")
 public class Usuario {
-
-	@Id // indica que esse atributo é chave primaria (obrigatorio)
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // indica se o java ou o banco de dados será responsavel pelo autoincremento
-	@Column(name = "user_id")
+	
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column (name = "user_id")
 	private Integer userId;
-
-	@Column(name = "user_nome")
+	
+	@Column (name = "user_nome")
 	private String userNome;
-
-	@Column(name = "user_email")
+	
+	@Column (name = "user_email")
 	private String userEmail;
-
-	@Column(name = "user_password")
+	
+	@Column (name = "user_password")
 	private String userPassword;
 
 	public Integer getUserId() {
@@ -56,4 +56,6 @@ public class Usuario {
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
+
+	
 }

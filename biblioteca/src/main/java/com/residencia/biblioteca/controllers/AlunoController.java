@@ -20,22 +20,22 @@ import com.residencia.biblioteca.services.AlunoService;
 @RestController
 @RequestMapping("/alunos")
 public class AlunoController {
+	
 	@Autowired
 	AlunoService alunoService;
 	
-	@GetMapping
-	public ResponseEntity <List<Aluno>> getAllAlunos() {
-		return  new ResponseEntity <> (alunoService.getAllAlunos(),
+	@GetMapping	
+	public ResponseEntity<List<Aluno>>  getAllAlunos(){
+		return new ResponseEntity<>(alunoService.getAllAlunos(),
 				HttpStatus.OK);
 	}
 	
 	@GetMapping ("/{id}")
-	public ResponseEntity <Aluno> getAlunoById(Integer id) {
-		//return alunoService.getAlunoById(id);
+	public ResponseEntity<Aluno> getAlunoById(@PathVariable Integer id) {
+		
 		Aluno alunoResponse = alunoService.getAlunoById(id);
-		if(null == alunoResponse)
-			return new ResponseEntity<>(null,
-					HttpStatus.NOT_FOUND);
+		if(alunoResponse == null)
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		else
 			return new ResponseEntity<>(alunoResponse,
 					HttpStatus.OK);
@@ -43,22 +43,26 @@ public class AlunoController {
 	
 	@PostMapping
 	public ResponseEntity<Aluno> saveAluno(@RequestBody Aluno aluno) {
+		
 		return new ResponseEntity<>(alunoService.saveAluno(aluno),
-			HttpStatus.CREATED);
+				HttpStatus.CREATED);
 	}
 	
 	@PutMapping
 	public ResponseEntity<Aluno> updateAluno(@RequestBody Aluno aluno, Integer id) {
+		
 		return new ResponseEntity<> (alunoService.updateAluno(aluno, id),
-			HttpStatus.OK);
+				HttpStatus.OK);
 	}
 	
 	@DeleteMapping ("/{id}")
-	public ResponseEntity <Boolean> delAluno(@PathVariable Integer id) {
-		Boolean resp = alunoService.delAluno(id);
-		if (resp)
-			return new ResponseEntity<>(resp, HttpStatus.OK);
+	public ResponseEntity<Boolean> deleteAluno(@PathVariable Integer id) {
+		
+		if(alunoService.delAluno(id) == false)
+			return new ResponseEntity<>(false,
+					HttpStatus.NOT_MODIFIED);
 		else
-			return new ResponseEntity<>(resp, HttpStatus.NOT_MODIFIED);
+			return new ResponseEntity<>(alunoService.delAluno(id),
+					HttpStatus.OK);		
 	}
 }
