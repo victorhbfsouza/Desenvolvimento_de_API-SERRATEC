@@ -1,5 +1,7 @@
 package com.grupo5.atividade1.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +26,7 @@ public class Turma {
 	@Column(name = "dia_semana")
 	private Integer dia_semana;
 	
+	@JsonIgnore //aula 16/05
 	@ManyToOne
 	@JoinColumn (name = "id_instrutor", referencedColumnName = "id_instrutor")
 	private Instrutor id_instrutor;
