@@ -18,7 +18,7 @@ import com.grupo5.atividade1.entities.Turma;
 import com.grupo5.atividade1.services.TurmaService;
 
 @RestController
-@RequestMapping("/telefones")
+@RequestMapping("/turmas")
 public class TurmaController {
 
 	@Autowired
@@ -54,7 +54,7 @@ public class TurmaController {
 		return new ResponseEntity<> (turmaService.updateTurma (turma, id),
 				HttpStatus.OK);
 	}
-
+	
 	@DeleteMapping ("/{id}")
 	public ResponseEntity<Boolean> deleteTurma(@PathVariable Integer id) {
 		
@@ -65,5 +65,4 @@ public class TurmaController {
 			return new ResponseEntity<>(turmaService.delTurma(id),
 					HttpStatus.OK);		
 	}
-}	
-
+}

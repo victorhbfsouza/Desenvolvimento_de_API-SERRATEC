@@ -37,7 +37,7 @@ public class TurmaService {
 			turmaRepository.deleteById(id);
 		}
 		
-		public Boolean delTelefone(Integer id) {
+		public Boolean delTurma(Integer id) {
 			
 			turmaRepository.deleteById(id);
 			if(turmaRepository.findById(id).orElse(null) == null)
