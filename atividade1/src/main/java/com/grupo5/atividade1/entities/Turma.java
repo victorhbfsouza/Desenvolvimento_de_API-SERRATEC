@@ -11,12 +11,12 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "turma")
-public class turma {
+public class Turma {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Integer id;
+	@Column(name = "id_turma")
+	private Integer id_turma;
 	
 	@Column(name = "nome_disciplina")
 	private String nome_disciplina;
@@ -25,16 +25,15 @@ public class turma {
 	private Integer dia_semana;
 	
 	@ManyToOne
-	@JoinColumn(name = "instrutor", referencedColumnName = "id")
-	private Integer id_instrutor;
-	//VERIFICAR
+	@JoinColumn (name = "id_instrutor", referencedColumnName = "id_instrutor")
+	private Instrutor id_instrutor;
 
-	public Integer getId() {
-		return id;
+	public Integer getId_turma() {
+		return id_turma;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setId_turma(Integer id_turma) {
+		this.id_turma = id_turma;
 	}
 
 	public String getNome_disciplina() {
@@ -53,12 +52,12 @@ public class turma {
 		this.dia_semana = dia_semana;
 	}
 
-	public Integer getId_instrutor() {
+	public Instrutor getId_instrutor() {
 		return id_instrutor;
 	}
 
-	public void setId_instrutor(Integer id_instrutor) {
+	public void setId_instrutor(Instrutor id_instrutor) {
 		this.id_instrutor = id_instrutor;
 	}
-
+	
 }

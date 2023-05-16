@@ -7,18 +7,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "instrutor")
-public class instrutor {
+public class Instrutor {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Integer id;
+	@Column(name = "id_instrutor")
+	private Integer id_instrutor;
 	
 	@Column(name = "rg")
 	private Integer rg;
@@ -27,19 +28,18 @@ public class instrutor {
 	private String nome;
 	
 	@OneToMany(mappedBy = "turma")
-	private List<turma> turmas;
-	//verificar
+	private List <Turma> turmas;
 	
-	@OneToOne (mappedBy = "telefone")
-	private Integer telefone;
-	//Verificar
+	@OneToOne
+	@JoinColumn (name = "id_telefone")
+	private Telefone telefone;
 
-	public Integer getId() {
-		return id;
+	public Integer getId_instrutor() {
+		return id_instrutor;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setId_instrutor(Integer id_instrutor) {
+		this.id_instrutor = id_instrutor;
 	}
 
 	public Integer getRg() {
@@ -58,20 +58,20 @@ public class instrutor {
 		this.nome = nome;
 	}
 
-	public List<turma> getTurmas() {
+	public List<Turma> getTurmas() {
 		return turmas;
 	}
 
-	public void setTurmas(List<turma> turmas) {
+	public void setTurmas(List<Turma> turmas) {
 		this.turmas = turmas;
 	}
 
-	public Integer getTelefone() {
+	public Telefone getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(Integer telefone) {
+	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
 	}
-
+	
 }
