@@ -2,8 +2,6 @@ package com.grupo5.atividade1.entities;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,12 +27,11 @@ public class Instrutor {
 	@Column(name = "nome")
 	private String nome;
 	
-	@JsonIgnore //aula 16/05
-	@OneToMany(mappedBy = "turma")
+	@OneToMany(mappedBy = "id_instrutor")
 	private List <Turma> turmas;
 	
 	@OneToOne
-	@JoinColumn (name = "id_telefone")
+	@JoinColumn (name = "id_instrutor")
 	private Telefone telefone;
 
 	public Integer getId_instrutor() {
