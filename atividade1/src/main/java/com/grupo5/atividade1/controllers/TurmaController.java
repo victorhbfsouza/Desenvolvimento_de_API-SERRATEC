@@ -18,51 +18,47 @@ import com.grupo5.atividade1.entities.Turma;
 import com.grupo5.atividade1.services.TurmaService;
 
 @RestController
-@RequestMapping("/turmas")
+@RequestMapping(value = "/turmas")
 public class TurmaController {
-
+	
 	@Autowired
 	TurmaService turmaService;
 	
-	@GetMapping	
-	public ResponseEntity<List<Turma>>  getAllTurmas(){
-		return new ResponseEntity<>(turmaService.getAllTurmas(),
-				HttpStatus.OK);
+	@GetMapping
+	public ResponseEntity<List<Turma>> getAllTurmas() {
+		return new ResponseEntity<>(turmaService.getAllTurmas(),HttpStatus.OK);
 	}
 	
-	@GetMapping ("/{id}")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<Turma> getTurmaById(@PathVariable Integer id) {
-		
+		//return turmaService.getTurmaById(id);
 		Turma turmaResponse = turmaService.getTurmaById(id);
-		if(turmaResponse == null)
+		if(null == turmaResponse) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		else
-			return new ResponseEntity<>(turmaResponse,
-					HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(turmaResponse, HttpStatus.OK);
+		}
 	}
 	
 	@PostMapping
 	public ResponseEntity<Turma> saveTurma(@RequestBody Turma turma) {
-		
-		return new ResponseEntity<>(turmaService.saveTurma(turma),
-				HttpStatus.CREATED);
+		return new ResponseEntity<>(turmaService.saveTurma(turma), HttpStatus.CREATED);
 	}
 	
-	@PutMapping ("/{id}")
-	public ResponseEntity<Turma> updateTurma(@RequestBody Turma turma, @PathVariable Integer id) {
-		
-		return new ResponseEntity<> (turmaService.updateTurma (turma, id),
-				HttpStatus.OK);
+	@PutMapping(value = "/{id}")
+	//@PutMapping(value = "/{id}")
+	public ResponseEntity<Turma> updateTurma(@RequestBody Turma turma, Integer id) {
+		return new ResponseEntity<>(turmaService.updateTurma(turma, id), HttpStatus.OK);
 	}
 	
-	@DeleteMapping ("/{id}")
-	public ResponseEntity<Boolean> deleteTurma(@PathVariable Integer id) {
-		
-		if(turmaService.delTurma(id) == false)
-			return new ResponseEntity<>(false,
-					HttpStatus.NOT_MODIFIED);
-		else
-			return new ResponseEntity<>(turmaService.delTurma(id),
-					HttpStatus.OK);		
+	@DeleteMapping(value = "/{id}")
+		public ResponseEntity<Boolean> delTurma(@PathVariable Integer id) {
+		//return turmaService.delTurma(id);
+		Boolean resp = turmaService.delTurma(id);
+		if(resp) {
+			return new ResponseEntity<>(resp, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(resp, HttpStatus.NOT_MODIFIED);
+		}	
 	}
 }

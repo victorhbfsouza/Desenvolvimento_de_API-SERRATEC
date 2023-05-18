@@ -1,5 +1,8 @@
 package com.grupo5.atividade1.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,55 +12,69 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property = "idTurma"
+		)
 @Entity
-@Table(name = "turma")
+@Table (name = "turma")
 public class Turma {
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_turma")
-	private Integer id_turma;
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column (name = "idturma")
+	private Integer idTurma;
 	
-	@Column(name = "nome_disciplina")
-	private String nome_disciplina;
+	@Column (name = "nomedisciplina")
+	private String nomeDisciplina;
 	
-	@Column(name = "dia_semana")
-	private Integer dia_semana;
+	@Column (name = "diasemana")
+	private String diaSemana;
+	
+	//@Column (name = "idinstrutor")
+	//private Integer idInstrutor;
 	
 	@ManyToOne
-	@JoinColumn (name = "id_instrutor", referencedColumnName = "id_instrutor")
-	private Instrutor id_instrutor;
+	@JoinColumn (name = "id", referencedColumnName = "id")
+	private Instrutor instrutor;
 
-	public Integer getId_turma() {
-		return id_turma;
+	public Integer getId() {
+		return idTurma;
 	}
 
-	public void setId_turma(Integer id_turma) {
-		this.id_turma = id_turma;
+	public void setId(Integer id) {
+		this.idTurma = id;
 	}
 
-	public String getNome_disciplina() {
-		return nome_disciplina;
+	public String getNomeDisciplina() {
+		return nomeDisciplina;
 	}
 
-	public void setNome_disciplina(String nome_disciplina) {
-		this.nome_disciplina = nome_disciplina;
+	public void setNomeDisciplina(String nomeDisciplina) {
+		this.nomeDisciplina = nomeDisciplina;
 	}
 
-	public Integer getDia_semana() {
-		return dia_semana;
+	public String getDiaSemana() {
+		return diaSemana;
 	}
 
-	public void setDia_semana(Integer dia_semana) {
-		this.dia_semana = dia_semana;
+	public void setDiaSemana(String diaSemana) {
+		this.diaSemana = diaSemana;
 	}
 
-	public Instrutor getId_instrutor() {
-		return id_instrutor;
+	public Instrutor getInstrutor() {
+		return instrutor;
 	}
 
-	public void setId_instrutor(Instrutor id_instrutor) {
-		this.id_instrutor = id_instrutor;
+	public void setInstrutor(Instrutor instrutor) {
+		this.instrutor = instrutor;
 	}
-	
+
+	public Integer getIdTurma() {
+		return idTurma;
+	}
+
+	public void setIdTurma(Integer idTurma) {
+		this.idTurma = idTurma;
+	}
 }
