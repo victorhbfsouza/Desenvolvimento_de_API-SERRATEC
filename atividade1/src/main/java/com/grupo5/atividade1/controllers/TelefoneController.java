@@ -48,8 +48,8 @@ public class TelefoneController {
 				HttpStatus.CREATED);
 	}
 	
-	@PutMapping
-	public ResponseEntity<Telefone> updateTelefone(@RequestBody Telefone telefone, Integer id) {
+	@PutMapping ("/{id}")
+	public ResponseEntity<Telefone> updateTelefone(@RequestBody Telefone telefone, @PathVariable Integer id) {
 		
 		return new ResponseEntity<> (telefoneService.updateTelefone (telefone, id),
 				HttpStatus.OK);

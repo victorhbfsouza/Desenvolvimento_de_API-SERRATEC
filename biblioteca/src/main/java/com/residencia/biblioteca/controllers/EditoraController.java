@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.residencia.biblioteca.dto.EditoraResumidaDTO;
 import com.residencia.biblioteca.entities.Editora;
 import com.residencia.biblioteca.services.EditoraService;
 
@@ -40,6 +42,17 @@ public class EditoraController {
 					HttpStatus.OK);
 	}
 	
+	@GetMapping ("/dto/{id}")
+	public ResponseEntity<EditoraResumidaDTO> getEditoraDtoById(@PathVariable Integer id) {
+		
+		EditoraResumidaDTO editoraDtoResponse = editoraService.getEditoraDtoById(id);
+		if(editoraDtoResponse == null)
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		else
+			return new ResponseEntity<>(editoraDtoResponse,
+					HttpStatus.OK);
+	}
+	
 	@PostMapping
 	public ResponseEntity<Editora> saveEditora(@RequestBody Editora editora) {
 		
@@ -61,7 +74,7 @@ public class EditoraController {
 			return new ResponseEntity<>(false,
 					HttpStatus.NOT_MODIFIED);
 		else
-			return new ResponseEntity<>(editoraService.delEditora(id),
+			return new ResponseEntity<>(true,
 					HttpStatus.OK);		
 	}
 }
