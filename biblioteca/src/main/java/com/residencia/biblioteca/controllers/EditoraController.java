@@ -25,56 +25,58 @@ public class EditoraController {
 	@Autowired
 	EditoraService editoraService;
 	
-	@GetMapping	
-	public ResponseEntity<List<Editora>>  getAllEditoras(){
-		return new ResponseEntity<>(editoraService.getAllEditoras(),
-				HttpStatus.OK);
+	@GetMapping
+	public ResponseEntity<List<Editora>> getAllEditoras() {
+		List<Editora> editoraResponse = editoraService.getAllEditoras();
+		if(editoraResponse == null)
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		else
+			return new ResponseEntity<>(editoraResponse, HttpStatus.OK);
 	}
 	
-	@GetMapping ("/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Editora> getEditoraById(@PathVariable Integer id) {
-		
 		Editora editoraResponse = editoraService.getEditoraById(id);
 		if(editoraResponse == null)
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		else
-			return new ResponseEntity<>(editoraResponse,
-					HttpStatus.OK);
+			return new ResponseEntity<>(editoraResponse, HttpStatus.OK);
 	}
 	
-	@GetMapping ("/dto/{id}")
+	//DTO
+	@GetMapping("/dto/{id}")
 	public ResponseEntity<EditoraResumidaDTO> getEditoraDtoById(@PathVariable Integer id) {
-		
-		EditoraResumidaDTO editoraDtoResponse = editoraService.getEditoraDtoById(id);
-		if(editoraDtoResponse == null)
+		//A editoraDTO recebe o valor de DTO
+		EditoraResumidaDTO editoraDTOResponse = editoraService.getEditoraDTOById(id);
+		if(editoraDTOResponse == null)
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		else
-			return new ResponseEntity<>(editoraDtoResponse,
-					HttpStatus.OK);
+			return new ResponseEntity<>(editoraDTOResponse, HttpStatus.OK);
 	}
 	
 	@PostMapping
 	public ResponseEntity<Editora> saveEditora(@RequestBody Editora editora) {
-		
-		return new ResponseEntity<>(editoraService.saveEditora(editora),
-				HttpStatus.CREATED);
+		Editora editoraResponse = editoraService.saveEditora(editora);
+		return new ResponseEntity<>(editoraResponse, HttpStatus.CREATED);
 	}
 	
-	@PutMapping
+	//@PutMapping
+	@PutMapping("/{id}") //Lembrete para quando voltar
 	public ResponseEntity<Editora> updateEditora(@RequestBody Editora editora, Integer id) {
-		
-		return new ResponseEntity<> (editoraService.updateEditora(editora, id),
-				HttpStatus.OK);
+		Editora editoraGet = editoraService.getEditoraById(id);
+		Editora editoraResponse = editoraService.updateEditora(editora, id);
+		if(editoraGet == null) 
+			return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED); 
+		else
+			return new ResponseEntity<>(editoraResponse, HttpStatus.OK); 
 	}
 	
-	@DeleteMapping ("/{id}")
-	public ResponseEntity<Boolean> deleteEditora(@PathVariable Integer id) {
-		
-		if(editoraService.delEditora(id) == false)
-			return new ResponseEntity<>(false,
-					HttpStatus.NOT_MODIFIED);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Boolean> delEditora(@PathVariable Integer id) {
+		Boolean editoraResponse = editoraService.delEditora(id);
+		if(editoraResponse)
+			return new ResponseEntity<>(editoraResponse, HttpStatus.OK);
 		else
-			return new ResponseEntity<>(true,
-					HttpStatus.OK);		
+			return new ResponseEntity<>(editoraResponse, HttpStatus.NOT_MODIFIED);
 	}
 }

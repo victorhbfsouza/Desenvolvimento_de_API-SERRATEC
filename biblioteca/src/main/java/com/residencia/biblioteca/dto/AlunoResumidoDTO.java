@@ -6,10 +6,24 @@ public class AlunoResumidoDTO {
 	
 	private String nome;
 	private String cpf;
-	private List<EmprestimoResumidoDTO> listaEmprestimosResDTO;
+	private List<EmprestimoResumidoDTO> listaEmprestimosDTO;
 	
 	public AlunoResumidoDTO() {
 		super();
+	}
+
+	//Usado pelo professor
+	public AlunoResumidoDTO(String nome, String cpf, List<EmprestimoResumidoDTO> listaEmprestimosDTO) {
+		super();
+		this.nome = nome;
+		this.cpf = cpf;
+		this.listaEmprestimosDTO = listaEmprestimosDTO;
+	}
+
+	public AlunoResumidoDTO(String nome, String cpf) {
+		super();
+		this.nome = nome;
+		this.cpf = cpf;
 	}
 
 	public String getNome() {
@@ -28,12 +42,11 @@ public class AlunoResumidoDTO {
 		this.cpf = cpf;
 	}
 
-	public List<EmprestimoResumidoDTO> getListaEmprestimosResDTO() {
-		return listaEmprestimosResDTO;
+	public List<EmprestimoResumidoDTO> getlistaEmprestimosDTO() {
+		return listaEmprestimosDTO;
 	}
 
-	public void setListaEmprestimosResDTO(List<EmprestimoResumidoDTO> listaEmprestimosResDTO) {
-		this.listaEmprestimosResDTO = listaEmprestimosResDTO;
+	public void setlistaEmprestimosDTO(List<EmprestimoResumidoDTO> listaEmprestimosDTO) {
+		this.listaEmprestimosDTO = listaEmprestimosDTO;
 	}
-
 }

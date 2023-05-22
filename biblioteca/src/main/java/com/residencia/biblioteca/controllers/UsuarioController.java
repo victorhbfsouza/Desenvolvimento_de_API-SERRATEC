@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.residencia.biblioteca.entities.Usuario;
 import com.residencia.biblioteca.services.UsuarioService;
 
@@ -23,45 +24,47 @@ public class UsuarioController {
 	@Autowired
 	UsuarioService usuarioService;
 	
-	@GetMapping	
-	public ResponseEntity<List<Usuario>>  getAllUsuarios(){
-		return new ResponseEntity<>(usuarioService.getAllUsuarios(),
-				HttpStatus.OK);
+	@GetMapping
+	public ResponseEntity<List<Usuario>> getAllUsuarios() {
+		List<Usuario> usuarioResponse = usuarioService.getAllUsuarios();
+		if(usuarioResponse == null)
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		else
+			return new ResponseEntity<>(usuarioResponse, HttpStatus.OK);
 	}
 	
-	@GetMapping ("/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> getUsuarioById(@PathVariable Integer id) {
-		
 		Usuario usuarioResponse = usuarioService.getUsuarioById(id);
 		if(usuarioResponse == null)
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		else
-			return new ResponseEntity<>(usuarioResponse,
-					HttpStatus.OK);
+			return new ResponseEntity<>(usuarioResponse, HttpStatus.OK);
 	}
 	
 	@PostMapping
 	public ResponseEntity<Usuario> saveUsuario(@RequestBody Usuario usuario) {
-		
-		return new ResponseEntity<>(usuarioService.saveUsuario(usuario),
-				HttpStatus.CREATED);
+		Usuario usuarioResponse = usuarioService.saveUsuario(usuario);
+		return new ResponseEntity<>(usuarioResponse, HttpStatus.CREATED);
 	}
 	
-	@PutMapping
-	public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario, Integer id) {
-		
-		return new ResponseEntity<> (usuarioService.updateUsuario(usuario, id),
-				HttpStatus.OK);
+	//@PutMapping
+	@PutMapping("/{id}") //Lembrete para quando voltar
+	public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario, @PathVariable Integer id) {
+		//Usuario usuarioGet = usuarioService.getUsuarioById(id);
+		Usuario usuarioResponse = usuarioService.updateUsuario(usuario, id);
+		//if(usuarioGet == null) 
+			//return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED); 
+		//else
+			return new ResponseEntity<>(usuarioResponse, HttpStatus.OK); 
 	}
 	
-	@DeleteMapping ("/{id}")
-	public ResponseEntity<Boolean> deleteUsuario(@PathVariable Integer id) {
-		
-		if(usuarioService.delUsuario(id) == false)
-			return new ResponseEntity<>(false,
-					HttpStatus.NOT_MODIFIED);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Boolean> delUsuario(@PathVariable Integer id) {
+		Boolean usuarioResponse = usuarioService.delUsuario(id);
+		if(usuarioResponse)
+			return new ResponseEntity<>(usuarioResponse, HttpStatus.OK);
 		else
-			return new ResponseEntity<>(usuarioService.delUsuario(id),
-					HttpStatus.OK);		
+			return new ResponseEntity<>(usuarioResponse, HttpStatus.NOT_MODIFIED);
 	}
 }

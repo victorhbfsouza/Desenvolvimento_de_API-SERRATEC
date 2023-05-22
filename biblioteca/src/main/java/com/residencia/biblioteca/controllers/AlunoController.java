@@ -26,61 +26,85 @@ public class AlunoController {
 	@Autowired
 	AlunoService alunoService;
 	
-	@GetMapping	
-	public ResponseEntity<List<Aluno>>  getAllAlunos(){
-		return new ResponseEntity<>(alunoService.getAllAlunos(),
-				HttpStatus.OK);
+	@GetMapping
+	public ResponseEntity<List<Aluno>> getAllAlunos() {
+		List<Aluno> alunoResponse = alunoService.getAllAlunos();
+		if(alunoResponse == null)
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		else
+			return new ResponseEntity<>(alunoResponse, HttpStatus.OK);
 	}
 	
-	@GetMapping ("/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Aluno> getAlunoById(@PathVariable Integer id) {
-		
 		Aluno alunoResponse = alunoService.getAlunoById(id);
 		if(alunoResponse == null)
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		else
-			return new ResponseEntity<>(alunoResponse,
-					HttpStatus.OK);
+			return new ResponseEntity<>(alunoResponse, HttpStatus.OK);
 	}
-	@GetMapping ("/dto/{id}")
-	public ResponseEntity<AlunoResumidoDTO> getAlunoResumidoDTOById(@PathVariable Integer id) {
-		
-		AlunoResumidoDTO alunoResumidoDTO = alunoService.getAlunoResumidoDTOById(id);
-		if(alunoResumidoDTO == null)
+	/*
+	//Feito poe mim
+	@GetMapping("/dto/{id}")
+	public ResponseEntity<AlunoResumidoDTO> getAlunoDTOById(@PathVariable Integer id) {
+		AlunoResumidoDTO alunoDTOResponse = alunoService.getAlunoDTOById(id);
+		if(alunoDTOResponse == null)
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		else
-			return new ResponseEntity<>(alunoResumidoDTO,
-					HttpStatus.OK);
+			return new ResponseEntity<>(alunoDTOResponse, HttpStatus.OK);
+	}
+	*/
+	
+	@GetMapping("/emprestimos/{id}")
+	public ResponseEntity<AlunoResumidoDTO> getAlunoEmprestimosDTO(@PathVariable Integer id) {
+		AlunoResumidoDTO alunoDTOResponse = alunoService.getAlunoEmprestimosDTO(id);
+		if(alunoDTOResponse == null)
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		else
+			return new ResponseEntity<>(alunoDTOResponse, HttpStatus.OK);
 	}
 	
 	@PostMapping
 	public ResponseEntity<Aluno> saveAluno(@RequestBody Aluno aluno) {
-		
-		return new ResponseEntity<>(alunoService.saveAluno(aluno),
-				HttpStatus.CREATED);
+		Aluno alunoResponse = alunoService.saveAluno(aluno);
+		return new ResponseEntity<>(alunoResponse, HttpStatus.CREATED);
 	}
-	@PostMapping ("/dto")
+	
+	/*
+	// Eu quem fiz
+	 @PostMapping("/alunoDTO")
 	public ResponseEntity<AlunoDTO> saveAlunoDTO(@RequestBody AlunoDTO alunoDTO) {
-		
-		return new ResponseEntity<>(alunoService.saveAlunoDTO(alunoDTO),
-				HttpStatus.CREATED);
-	}
+		AlunoDTO alunoResponse = alunoService.saveAlunoDTO(alunoDTO);
+		return new ResponseEntity<>(alunoResponse, HttpStatus.CREATED);
+	} 
+	*/
 	
-	@PutMapping
-	public ResponseEntity<AlunoDTO> updateAluno(@RequestBody AlunoDTO alunoDTO) {
-		
-		return new ResponseEntity<> (alunoService.updateAluno(alunoDTO),
-				HttpStatus.OK);
-	}
-	
-	@DeleteMapping ("/{id}")
-	public ResponseEntity<Boolean> deleteAluno(@PathVariable Integer id) {
-		
-		if(alunoService.delAluno(id) == false)
-			return new ResponseEntity<>(false,
-					HttpStatus.NOT_MODIFIED);
+	@PostMapping("/alunoDTO")
+	public ResponseEntity<AlunoDTO> saveAlunoDTO(@RequestBody AlunoDTO alunoDTO) {
+		AlunoDTO alunoResponse = alunoService.saveAlunoDTO(alunoDTO);
+		if (alunoResponse == null)
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		else
-			return new ResponseEntity<>(true,
-					HttpStatus.OK);		
+			return new ResponseEntity<>(alunoResponse, HttpStatus.CREATED);
+	}
+	
+	// @PutMapping
+	@PutMapping("/{id}") //Lembrete para quando voltar
+	public ResponseEntity<Aluno> updateAluno(@RequestBody Aluno aluno, @PathVariable Integer id) {
+		//Aluno alunoGet = alunoService.getAlunoById(id);
+		Aluno alunoResponse = alunoService.updateAluno(aluno, id);
+		//if(alunoGet == null) 
+			//return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED); 
+		//else
+			return new ResponseEntity<>(alunoResponse, HttpStatus.OK); 
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Boolean> delAluno(@PathVariable Integer id) {
+		Boolean alunoResponse = alunoService.delAluno(id);
+		if(alunoResponse)
+			return new ResponseEntity<>(alunoResponse, HttpStatus.OK);
+		else
+			return new ResponseEntity<>(alunoResponse, HttpStatus.NOT_MODIFIED);
 	}
 }

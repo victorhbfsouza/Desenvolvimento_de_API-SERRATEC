@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.residencia.biblioteca.entities.Emprestimo;
 import com.residencia.biblioteca.services.EmprestimoService;
 
@@ -23,45 +24,47 @@ public class EmprestimoController {
 	@Autowired
 	EmprestimoService emprestimoService;
 	
-	@GetMapping	
-	public ResponseEntity<List<Emprestimo>>  getAllEmprestimos(){
-		return new ResponseEntity<>(emprestimoService.getAllEmprestimos(),
-				HttpStatus.OK);
+	@GetMapping
+	public ResponseEntity<List<Emprestimo>> getAllEmprestimos() {
+		List<Emprestimo> emprestimoResponse = emprestimoService.getAllEmprestimos();
+		if(emprestimoResponse == null)
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		else
+			return new ResponseEntity<>(emprestimoResponse, HttpStatus.OK);
 	}
 	
-	@GetMapping ("/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Emprestimo> getEmprestimoById(@PathVariable Integer id) {
-		
 		Emprestimo emprestimoResponse = emprestimoService.getEmprestimoById(id);
 		if(emprestimoResponse == null)
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		else
-			return new ResponseEntity<>(emprestimoResponse,
-					HttpStatus.OK);
+			return new ResponseEntity<>(emprestimoResponse, HttpStatus.OK);
 	}
 	
 	@PostMapping
 	public ResponseEntity<Emprestimo> saveEmprestimo(@RequestBody Emprestimo emprestimo) {
-		
-		return new ResponseEntity<>(emprestimoService.saveEmprestimo(emprestimo),
-				HttpStatus.CREATED);
+		Emprestimo emprestimoResponse = emprestimoService.saveEmprestimo(emprestimo);
+		return new ResponseEntity<>(emprestimoResponse, HttpStatus.CREATED);
 	}
 	
-	@PutMapping
-	public ResponseEntity<Emprestimo> updateEmprestimo(@RequestBody Emprestimo emprestimo, Integer id) {
-		
-		return new ResponseEntity<> (emprestimoService.updateEmprestimo(emprestimo, id),
-				HttpStatus.OK);
+	//@PutMapping
+	@PutMapping("/{id}") //Lembrete para quando voltar
+	public ResponseEntity<Emprestimo> updateEmprestimo(@RequestBody Emprestimo emprestimo, @PathVariable Integer id) {
+		//Emprestimo emprestimoGet = emprestimoService.getEmprestimoById(id);
+		Emprestimo emprestimoResponse = emprestimoService.updateEmprestimo(emprestimo, id);
+		//if(emprestimoGet == null) 
+			//return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED); 
+		//else
+			return new ResponseEntity<>(emprestimoResponse, HttpStatus.OK); 
 	}
 	
-	@DeleteMapping ("/{id}")
-	public ResponseEntity<Boolean> deleteEmprestimo(@PathVariable Integer id) {
-		
-		if(emprestimoService.delEmprestimo(id) == false)
-			return new ResponseEntity<>(false,
-					HttpStatus.NOT_MODIFIED);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Boolean> delEmprestimo(@PathVariable Integer id) {
+		Boolean emprestimoResponse = emprestimoService.delEmprestimo(id);
+		if(emprestimoResponse)
+			return new ResponseEntity<>(emprestimoResponse, HttpStatus.OK);
 		else
-			return new ResponseEntity<>(emprestimoService.delEmprestimo(id),
-					HttpStatus.OK);		
+			return new ResponseEntity<>(emprestimoResponse, HttpStatus.NOT_MODIFIED);
 	}
 }

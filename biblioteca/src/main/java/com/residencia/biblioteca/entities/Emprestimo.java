@@ -1,7 +1,11 @@
 package com.residencia.biblioteca.entities;
 
-import java.math.BigDecimal;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,37 +16,33 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-/*
-@JsonIdentityInfo(
-		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "codigoEmprestimo"
-		)*/
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "codigoEmprestimo") 
 @Entity
-@Table (name = "emprestimo")
+@Table(name = "emprestimo")
 public class Emprestimo {
 	
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	@Column (name = "codigoemprestimo")
-	private Integer codigoEmprestimo;	
-	
-	@Column (name = "dataemprestimo")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "codigoemprestimo")
+	private Integer codigoEmprestimo;
+		
+	@Column(name = "dataemprestimo")
 	private Date dataEmprestimo;
 	
-	@Column (name = "dataentrega")
+	@Column(name = "dataentrega")
 	private Date dataEntrega;
 	
-	@Column (name = "valoremprestimo")
-	private BigDecimal valorEmprestimo ;
+	@Column(name = "valoremprestimo")
+	private double valorEmprestimo;
 	
-	//@JsonBackReference (value = "aluno-back")
+	//@JsonBackReference(value = "aluno-emprestimo")
 	@ManyToOne
-	@JoinColumn (name = "numeromatriculaaluno" , referencedColumnName = "numeromatriculaaluno")
+	@JoinColumn(name = "numeromatriculaaluno", referencedColumnName = "numeromatriculaaluno")
 	private Aluno aluno;
 	
-	//@JsonBackReference (value = "livro-back")
+	//@JsonBackReference(value = "livro-emprestimo")
 	@ManyToOne
-	@JoinColumn (name = "codigolivro" , referencedColumnName = "codigolivro")
+	@JoinColumn(name = "codigolivro", referencedColumnName = "codigolivro")
 	private Livro livro;
 
 	public Integer getCodigoEmprestimo() {
@@ -51,7 +51,7 @@ public class Emprestimo {
 
 	public void setCodigoEmprestimo(Integer codigoEmprestimo) {
 		this.codigoEmprestimo = codigoEmprestimo;
-	}	
+	}
 
 	public Date getDataEmprestimo() {
 		return dataEmprestimo;
@@ -69,11 +69,11 @@ public class Emprestimo {
 		this.dataEntrega = dataEntrega;
 	}
 
-	public BigDecimal getValorEmprestimo() {
+	public double getValorEmprestimo() {
 		return valorEmprestimo;
 	}
 
-	public void setValorEmprestimo(BigDecimal valorEmprestimo) {
+	public void setValorEmprestimo(double valorEmprestimo) {
 		this.valorEmprestimo = valorEmprestimo;
 	}
 
@@ -92,6 +92,4 @@ public class Emprestimo {
 	public void setLivro(Livro livro) {
 		this.livro = livro;
 	}
-	
-	
 }
