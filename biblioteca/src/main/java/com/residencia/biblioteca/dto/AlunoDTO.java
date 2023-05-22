@@ -1,57 +1,39 @@
-package com.residencia.biblioteca.entities;
+package com.residencia.biblioteca.dto;
 
 import java.util.Date;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-
-/*
-@JsonIdentityInfo(
-		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "numeroMatriculaAluno"
-		) */
-@Entity
-@Table (name = "aluno")
-public class Aluno {	
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column (name = "numeromatriculaaluno")
+public class AlunoDTO {
 	private Integer numeroMatriculaAluno;
-	
-	@Column (name = "nome")
 	private String nome;
-	
-	@Column (name = "datanascimento")
 	private Date dataNascimento;
-	
-	@Column (name = "cpf")
 	private String cpf;
-	
-	@Column (name = "logradouro")
 	private String logradouro;
-	
-	@Column (name = "numerologradouro")
 	private String numeroLogradouro;
-	
-	@Column (name = "complemento")
 	private String complemento;
-	
-	@Column (name = "bairro")
 	private String bairro;
-	
-	@Column (name = "cidade")
 	private String cidade;
+	private List<EmprestimoDTO> emprestimos;
 	
-	//@JsonManagedReference (value = "aluno-back")
-	@OneToMany (mappedBy = "aluno")
-	private List<Emprestimo> emprestimos;
+	public AlunoDTO() {
+		super();
+	}
+
+	public AlunoDTO(Integer numeroMatriculaAluno, String nome, Date dataNascimento, String cpf, String logradouro,
+			String numeroLogradouro, String complemento, String bairro, String cidade,
+			List<EmprestimoDTO> emprestimos) {
+		super();
+		this.numeroMatriculaAluno = numeroMatriculaAluno;
+		this.nome = nome;
+		this.dataNascimento = dataNascimento;
+		this.cpf = cpf;
+		this.logradouro = logradouro;
+		this.numeroLogradouro = numeroLogradouro;
+		this.complemento = complemento;
+		this.bairro = bairro;
+		this.cidade = cidade;
+		this.emprestimos = emprestimos;
+	}
 
 	public Integer getNumeroMatriculaAluno() {
 		return numeroMatriculaAluno;
@@ -125,13 +107,11 @@ public class Aluno {
 		this.cidade = cidade;
 	}
 
-	public List<Emprestimo> getEmprestimos() {
+	public List<EmprestimoDTO> getEmprestimos() {
 		return emprestimos;
 	}
 
-	public void setEmprestimos(List<Emprestimo> emprestimos) {
+	public void setEmprestimos(List<EmprestimoDTO> emprestimos) {
 		this.emprestimos = emprestimos;
-	}
-	
-	
+	}	
 }

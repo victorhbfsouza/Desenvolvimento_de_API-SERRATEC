@@ -8,11 +8,11 @@
 		<version>3.0.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.grupo5</groupId>
-	<artifactId>atividade1</artifactId>
+	<groupId>com.residencia</groupId>
+	<artifactId>biblioteca</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>atividade1</name>
-	<description>Atividade grupo 5 serratec - API Restful</description>
+	<name>biblioteca</name>
+	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -42,6 +42,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+	      <groupId>org.springdoc</groupId>
+	      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+	      <version>2.1.0</version>
+	   </dependency>
 	</dependencies>
 
 	<build>

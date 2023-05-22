@@ -3,9 +3,11 @@ package com.residencia.biblioteca.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.residencia.biblioteca.dto.AlunoDTO;
 import com.residencia.biblioteca.dto.AlunoResumidoDTO;
 import com.residencia.biblioteca.dto.EmprestimoResumidoDTO;
 import com.residencia.biblioteca.entities.Aluno;
@@ -17,6 +19,9 @@ public class AlunoService {
 	
 	@Autowired
 	AlunoRepository alunoRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	public List <Aluno>getAllAlunos() {
 		
@@ -37,7 +42,12 @@ public class AlunoService {
 			EmprestimoResumidoDTO emprestimoResumidoDTO = new EmprestimoResumidoDTO();
 			emprestimoResumidoDTO.setDataEmprestimo(emprestimo.getDataEmprestimo());
 			emprestimoResumidoDTO.setDataEntrega(emprestimo.getDataEntrega());
-			emprestimoResumidoDTO.setNomeLivro(emprestimo.getLivro().getNomeLivro());
+			
+			if(null == emprestimo.getLivro())
+				emprestimoResumidoDTO.setNomeLivro(null);
+			else
+				emprestimoResumidoDTO.setNomeLivro(emprestimo.getLivro().getNomeLivro());
+			
 			listaEmprestimosResDTO.add(emprestimoResumidoDTO);
 		}
 		AlunoResumidoDTO alunoResumidoDTO = new AlunoResumidoDTO();
@@ -52,10 +62,23 @@ public class AlunoService {
 		
 		return alunoRepository.save(aluno);
 	}
-	
-	public Aluno updateAluno(Aluno aluno, Integer id) {
+	public AlunoDTO saveAlunoDTO(AlunoDTO alunoDTO) {
 		
-		return alunoRepository.save(aluno);
+		Aluno aluno = modelMapper.map(alunoDTO, Aluno.class);
+		AlunoDTO alunoDtoResponse = modelMapper.map(alunoRepository.save(aluno), AlunoDTO.class);
+		return alunoDtoResponse;		
+	}
+	
+	public AlunoDTO updateAluno(AlunoDTO alunoDTO){
+		
+		Aluno aluno = modelMapper.map(alunoDTO, Aluno.class);
+		if(alunoRepository.findById(aluno.getNumeroMatriculaAluno()).orElse(null) == null) {
+			return null;
+		}
+		else {
+			AlunoDTO saveResponse = modelMapper.map(alunoRepository.save(aluno), AlunoDTO.class);
+			return saveResponse;
+		}		
 	}
 	
 	public void deleteAluno(Integer id) {

@@ -3,6 +3,10 @@ package com.residencia.biblioteca.entities;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,47 +15,48 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-/*
-@JsonIdentityInfo(
-		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "numeroMatriculaAluno"
-		) */
+//@JsonIdentityInfo(
+//		generator = ObjectIdGenerators.PropertyGenerator.class,
+//		property = "numeroMatriculaAluno"
+//		) 
+
 @Entity
-@Table (name = "aluno")
-public class Aluno {	
+@Table(name = "aluno")
+public class Aluno {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column (name = "numeromatriculaaluno")
+	@Column(name = "numeromatriculaaluno")
 	private Integer numeroMatriculaAluno;
 	
-	@Column (name = "nome")
+	@Column(name = "nome")
 	private String nome;
 	
-	@Column (name = "datanascimento")
+	@Column(name = "datanascimento")
 	private Date dataNascimento;
 	
-	@Column (name = "cpf")
+	@Column(name = "cpf")
 	private String cpf;
 	
-	@Column (name = "logradouro")
+	@Column(name = "logradouro")
 	private String logradouro;
 	
-	@Column (name = "numerologradouro")
+	@Column(name = "numerologradouro")
 	private String numeroLogradouro;
 	
-	@Column (name = "complemento")
+	@Column(name = "complemento")
 	private String complemento;
 	
-	@Column (name = "bairro")
+	@Column(name = "bairro")
 	private String bairro;
 	
-	@Column (name = "cidade")
+	@Column(name = "cidade")
 	private String cidade;
+
 	
-	//@JsonManagedReference (value = "aluno-back")
-	@OneToMany (mappedBy = "aluno")
-	private List<Emprestimo> emprestimos;
+	@JsonManagedReference(value = "aluno-emprestimo")
+	@OneToMany(mappedBy = "aluno")
+	private List<Emprestimo> listaEmprestimo;
 
 	public Integer getNumeroMatriculaAluno() {
 		return numeroMatriculaAluno;
@@ -125,13 +130,11 @@ public class Aluno {
 		this.cidade = cidade;
 	}
 
-	public List<Emprestimo> getEmprestimos() {
-		return emprestimos;
+	public List<Emprestimo> getListaEmprestimo() {
+		return listaEmprestimo;
 	}
 
-	public void setEmprestimos(List<Emprestimo> emprestimos) {
-		this.emprestimos = emprestimos;
-	}
-	
-	
+	public void setListaEmprestimo(List<Emprestimo> listaEmprestimo) {
+		this.listaEmprestimo = listaEmprestimo;
+	} 
 }

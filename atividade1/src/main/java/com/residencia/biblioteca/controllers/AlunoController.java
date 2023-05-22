@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.residencia.biblioteca.dto.AlunoDTO;
 import com.residencia.biblioteca.dto.AlunoResumidoDTO;
+import com.residencia.biblioteca.dto.AlunoDTO;
 import com.residencia.biblioteca.entities.Aluno;
 import com.residencia.biblioteca.services.AlunoService;
 
@@ -26,61 +26,71 @@ public class AlunoController {
 	@Autowired
 	AlunoService alunoService;
 	
-	@GetMapping	
-	public ResponseEntity<List<Aluno>>  getAllAlunos(){
+	@GetMapping
+	public ResponseEntity<List<Aluno>> getAllAlunos() {
 		return new ResponseEntity<>(alunoService.getAllAlunos(),
 				HttpStatus.OK);
 	}
 	
-	@GetMapping ("/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Aluno> getAlunoById(@PathVariable Integer id) {
 		
 		Aluno alunoResponse = alunoService.getAlunoById(id);
-		if(alunoResponse == null)
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		else
+		
+		if(alunoResponse == null) {
+			return new ResponseEntity<>(null,
+					HttpStatus.NOT_FOUND);
+		}
+		else {
 			return new ResponseEntity<>(alunoResponse,
 					HttpStatus.OK);
+		}
 	}
-	@GetMapping ("/dto/{id}")
-	public ResponseEntity<AlunoResumidoDTO> getAlunoResumidoDTOById(@PathVariable Integer id) {
+	
+	@GetMapping("/dto/{id}")
+	public ResponseEntity<AlunoResumidoDTO> getAlunoDTOById(@PathVariable Integer id) {
 		
-		AlunoResumidoDTO alunoResumidoDTO = alunoService.getAlunoResumidoDTOById(id);
-		if(alunoResumidoDTO == null)
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		else
-			return new ResponseEntity<>(alunoResumidoDTO,
+		AlunoResumidoDTO alunoResponse = alunoService.getAlunoDTOById(id);
+		
+		if(alunoResponse == null) {
+			return new ResponseEntity<>(null,
+					HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<>(alunoResponse,
 					HttpStatus.OK);
+		}
 	}
 	
 	@PostMapping
 	public ResponseEntity<Aluno> saveAluno(@RequestBody Aluno aluno) {
-		
-		return new ResponseEntity<>(alunoService.saveAluno(aluno),
-				HttpStatus.CREATED);
-	}
-	@PostMapping ("/dto")
-	public ResponseEntity<AlunoDTO> saveAlunoDTO(@RequestBody AlunoDTO alunoDTO) {
-		
-		return new ResponseEntity<>(alunoService.saveAlunoDTO(alunoDTO),
+		return new ResponseEntity<>(alunoService.saveAluno(aluno), 
 				HttpStatus.CREATED);
 	}
 	
+//	@PostMapping("/saveDTO")
+//	public ResponseEntity<AlunoDTO> saveAlunoDTO(@RequestBody AlunoDTO aluno) {
+//		return new ResponseEntity<>(alunoService.saveAlunoDTO(aluno), 
+//				HttpStatus.CREATED);
+//	}
+	
 	@PutMapping
-	public ResponseEntity<AlunoDTO> updateAluno(@RequestBody AlunoDTO alunoDTO) {
-		
-		return new ResponseEntity<> (alunoService.updateAluno(alunoDTO),
+	public ResponseEntity<Aluno> updateAluno(@RequestBody Aluno aluno, Integer id) {
+		return new ResponseEntity<>(alunoService.updateAluno(aluno, id),
 				HttpStatus.OK);
 	}
 	
-	@DeleteMapping ("/{id}")
+	
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Boolean> deleteAluno(@PathVariable Integer id) {
+		Boolean alunoDeletado =  alunoService.deleteAluno(id);
 		
-		if(alunoService.delAluno(id) == false)
-			return new ResponseEntity<>(false,
-					HttpStatus.NOT_MODIFIED);
-		else
-			return new ResponseEntity<>(true,
-					HttpStatus.OK);		
+		if(alunoDeletado) {
+			return new ResponseEntity<>( alunoDeletado, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(alunoDeletado, HttpStatus.NOT_MODIFIED);
+ 		}
+		
 	}
 }
