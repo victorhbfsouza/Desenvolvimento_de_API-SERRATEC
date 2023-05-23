@@ -1,100 +1,126 @@
 package com.residencia.biblioteca.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.residencia.biblioteca.dto.EditoraResumidaDTO;
 import com.residencia.biblioteca.dto.LivroResumidoDTO;
+import com.residencia.biblioteca.dto.ReceitaWsDTO;
 import com.residencia.biblioteca.entities.Editora;
 import com.residencia.biblioteca.entities.Livro;
+import com.residencia.biblioteca.exception.AlunoNotFoundException;
+import com.residencia.biblioteca.exception.NoSuchElementException;
 import com.residencia.biblioteca.repositories.EditoraRepository;
 
 @Service
 public class EditoraService {
-
 	@Autowired
-	EditoraRepository editoraService;
+	EditoraRepository editoraRepository;
 	
-	public List<Editora> getAllEditoras(){
-		return editoraService.findAll();
+	@Autowired
+	private ModelMapper modelMapper;
+	
+	public List<Editora> getAllEditoras() {
+		return editoraRepository.findAll();
 	}
 	
 	public Editora getEditoraById(Integer id) {
-		return editoraService.findById(id).orElse(null);
+		//return editoraRepository.findById(id).get();
+		//return editoraRepository.findById(id).orElse(null);
+		
+		return editoraRepository.findById(id)
+		        .orElseThrow(() -> new NoSuchElementException("Editora", id));
+		
+		
 	}
 	
-	/*
-	//DTO
-	public EditoraResumidaDTO getEditoraDTOById(Integer id) {
-		//Instancia a editora c/ o método
-		Editora editora = editoraService.findById(id).orElse(null);
-		//Instancia a editoraDTO
+	public EditoraResumidaDTO getEditoraDtoById(Integer id) {
+		
+		Editora editora = editoraRepository.findById(id).orElse(null);
 		EditoraResumidaDTO editoraDTO = new EditoraResumidaDTO();
 		
-		//Se essa condição for verdadeira, para aqui e corrige o NullPointer
-		if(editora == null) {
+		if(null == editora)
 			return null;
-		}
 		
-		//Acessa os valores da editora para atribuir para a editoraDTO
 		editoraDTO.setCodigoEditora(editora.getCodigoEditora());
 		editoraDTO.setNome(editora.getNome());
 		
-		//Retorna a editoraDTO c/ as propriedades
-		return editoraDTO;
-	}
-	*/
-	
-	//DTO - Editora com info dos livros
-	//	Precisara percorrer a lista de livros
-		public EditoraResumidaDTO getEditoraDTOById(Integer id) {
-			Editora editora = editoraService.findById(id).orElse(null);
-			EditoraResumidaDTO editoraDTO = new EditoraResumidaDTO();
-			
-			if(editora == null) {
-				return null;
-			}
-			
-			editoraDTO.setCodigoEditora(editora.getCodigoEditora());
-			editoraDTO.setNome(editora.getNome());
-			
-			List<LivroResumidoDTO> listaLivroResDTO = new ArrayList<>();
-			
-			//A cada interação da coleção de livros - pegara as infos que queremos
-			for(Livro livro : editora.getLivro()) {
-				LivroResumidoDTO livroResDTO = new LivroResumidoDTO();
-				livroResDTO.setNomeLivro(livro.getNomeLivro());
-				livroResDTO.setNomeAutor(livro.getNomeAutor());
-				livroResDTO.setDataLancamento(livro.getDataLancamento());
-				listaLivroResDTO.add(livroResDTO);
-			}
-			
-			editoraDTO.setListaLivroResumido(listaLivroResDTO);
-			
-			return editoraDTO;
+		List<LivroResumidoDTO> listaLivroResDTO = new ArrayList<>();
+		for(Livro livro : editora.getLivros()) {
+			LivroResumidoDTO livroResDTO = new LivroResumidoDTO();
+			livroResDTO.setNomeLivro(livro.getNomeLivro());
+			livroResDTO.setNomeAutor(livro.getNomeAutor());
+			livroResDTO.setDataLancamento(livro.getDataLancamento());
+			listaLivroResDTO.add(livroResDTO);
 		}
+		
+		editoraDTO.setListaLivrosResDto(listaLivroResDTO);
+		
+		return editoraDTO;
+		
+		
+		/*
+		Editora editora = editoraRepository.findById(id).orElse(null);
+		if(null == editora)
+			return null;
+		
+		EditoraResumidaDTO editoraDTO = new EditoraResumidaDTO(editora.getCodigoEditora(),
+				editora.getNome());
+		
+		return editoraDTO;
+		*/
+	}
 	
 	public Editora saveEditora(Editora editora) {
-		return editoraService.save(editora);
+		return editoraRepository.save(editora);
 	}
 	
+	public EditoraResumidaDTO saveEditoraDto(EditoraResumidaDTO editoraResumidaDto) {
+		
+		ReceitaWsDTO recDto = consultaApiReceitaWs(editoraResumidaDto.getCnpj());
+		System.out.println("ReceitaWsDTO: " + recDto);
+
+		Editora editora = modelMapper.map(editoraResumidaDto, Editora.class);
+		return modelMapper.map(editoraRepository.save(editora),
+				EditoraResumidaDTO.class);
+		
+	}
+
+	//Preciso ter cuidado com os dados da instancia editora quando for atualizar um editora
 	public Editora updateEditora(Editora editora, Integer id) {
-		return editoraService.save(editora);
+		return editoraRepository.save(editora);
 	}
-	
+
 	public void deleteEditora(Integer id) {
-		editoraService.deleteById(id);
+		editoraRepository.deleteById(id);
 	}
 	
 	public Boolean delEditora(Integer id) {
-		editoraService.deleteById(id);
-		Editora editoraDeletado = editoraService.findById(id).orElse(null);
-		if(editoraDeletado == null)
+		editoraRepository.deleteById(id);
+		Editora editoraDeletado = editoraRepository.findById(id).orElse(null);
+		if(null == editoraDeletado)
 			return true;
 		else
 			return false;
+	}
+	
+	private ReceitaWsDTO consultaApiReceitaWs(String cnpj) {
+		RestTemplate restTemplate = new RestTemplate();
+		String uri = "https://receitaws.com.br/v1/cnpj/{cnpj}";
+		
+		Map<String,String> params = new HashMap<String, String>();
+		params.put("cnpj", cnpj);
+		
+		ReceitaWsDTO recDto = restTemplate.getForObject(uri, ReceitaWsDTO.class,
+				params); 
+		
+		return recDto;
 	}
 }

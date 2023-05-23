@@ -2,8 +2,6 @@ package com.residencia.biblioteca.dto;
 
 import java.util.Date;
 
-import com.residencia.biblioteca.entities.Aluno;
-
 public class AlunoDTO {
 	private Integer numeroMatriculaAluno;
 	private String nome;
@@ -14,13 +12,13 @@ public class AlunoDTO {
 	private String complemento;
 	private String bairro;
 	private String cidade;
-	
+
 	public AlunoDTO() {
 		super();
 	}
 
-	public AlunoDTO(Integer numeroMatriculaAluno, String nome, Date dataNascimento, String cpf, String logradouro, String numeroLogradouro,
-			String complemento, String bairro, String cidade) {
+	public AlunoDTO(Integer numeroMatriculaAluno, String nome, Date dataNascimento, String cpf, String logradouro,
+			String numeroLogradouro, String complemento, String bairro, String cidade) {
 		super();
 		this.numeroMatriculaAluno = numeroMatriculaAluno;
 		this.nome = nome;
@@ -32,7 +30,7 @@ public class AlunoDTO {
 		this.bairro = bairro;
 		this.cidade = cidade;
 	}
-	
+
 	public Integer getNumeroMatriculaAluno() {
 		return numeroMatriculaAluno;
 	}

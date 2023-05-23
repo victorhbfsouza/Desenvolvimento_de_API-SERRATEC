@@ -17,94 +17,68 @@ import org.springframework.web.bind.annotation.RestController;
 import com.residencia.biblioteca.dto.AlunoDTO;
 import com.residencia.biblioteca.dto.AlunoResumidoDTO;
 import com.residencia.biblioteca.entities.Aluno;
+import com.residencia.biblioteca.enums.StatusDeleteEnum;
+import com.residencia.biblioteca.exception.AlunoNotFoundException;
 import com.residencia.biblioteca.services.AlunoService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/alunos")
 public class AlunoController {
-	
 	@Autowired
 	AlunoService alunoService;
-	
+
 	@GetMapping
 	public ResponseEntity<List<Aluno>> getAllAlunos() {
-		List<Aluno> alunoResponse = alunoService.getAllAlunos();
-		if(alunoResponse == null)
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		else
-			return new ResponseEntity<>(alunoResponse, HttpStatus.OK);
+		return new ResponseEntity<>(alunoService.getAllAlunos(),
+				HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Aluno> getAlunoById(@PathVariable Integer id) {
-		Aluno alunoResponse = alunoService.getAlunoById(id);
-		if(alunoResponse == null)
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		else
-			return new ResponseEntity<>(alunoResponse, HttpStatus.OK);
+		return new ResponseEntity<>(alunoService.getAlunoById(id),
+				HttpStatus.OK);
 	}
-	/*
-	//Feito poe mim
-	@GetMapping("/dto/{id}")
-	public ResponseEntity<AlunoResumidoDTO> getAlunoDTOById(@PathVariable Integer id) {
-		AlunoResumidoDTO alunoDTOResponse = alunoService.getAlunoDTOById(id);
-		if(alunoDTOResponse == null)
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		else
-			return new ResponseEntity<>(alunoDTOResponse, HttpStatus.OK);
-	}
-	*/
 	
-	@GetMapping("/emprestimos/{id}")
-	public ResponseEntity<AlunoResumidoDTO> getAlunoEmprestimosDTO(@PathVariable Integer id) {
-		AlunoResumidoDTO alunoDTOResponse = alunoService.getAlunoEmprestimosDTO(id);
-		if(alunoDTOResponse == null)
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	@GetMapping("/{id}/emprestimos")
+	public ResponseEntity<AlunoResumidoDTO> getAlunoEmprestimosDto(@PathVariable Integer id){
+		AlunoResumidoDTO alunoResumidoDto = alunoService.getAlunoEmprestimosDto(id);
+		if(null == alunoResumidoDto)
+			return new ResponseEntity<>(null,
+					HttpStatus.NOT_FOUND);
 		else
-			return new ResponseEntity<>(alunoDTOResponse, HttpStatus.OK);
+			return new ResponseEntity<>(alunoResumidoDto,
+					HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Aluno> saveAluno(@RequestBody Aluno aluno) {
-		Aluno alunoResponse = alunoService.saveAluno(aluno);
-		return new ResponseEntity<>(alunoResponse, HttpStatus.CREATED);
+	public ResponseEntity<Aluno> saveAluno(@Valid @RequestBody Aluno aluno) {
+		return new ResponseEntity<>(alunoService.saveAluno(aluno),
+				HttpStatus.CREATED);
 	}
 	
-	/*
-	// Eu quem fiz
-	 @PostMapping("/alunoDTO")
-	public ResponseEntity<AlunoDTO> saveAlunoDTO(@RequestBody AlunoDTO alunoDTO) {
-		AlunoDTO alunoResponse = alunoService.saveAlunoDTO(alunoDTO);
-		return new ResponseEntity<>(alunoResponse, HttpStatus.CREATED);
-	} 
-	*/
-	
-	@PostMapping("/alunoDTO")
-	public ResponseEntity<AlunoDTO> saveAlunoDTO(@RequestBody AlunoDTO alunoDTO) {
-		AlunoDTO alunoResponse = alunoService.saveAlunoDTO(alunoDTO);
-		if (alunoResponse == null)
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-		else
-			return new ResponseEntity<>(alunoResponse, HttpStatus.CREATED);
+	@PostMapping("/dto")
+	public ResponseEntity<AlunoDTO> saveAlunoDto(@RequestBody AlunoDTO alunoDto) {
+		return new ResponseEntity<>(alunoService.saveAlunoDto(alunoDto),
+				HttpStatus.CREATED);
 	}
 	
-	// @PutMapping
-	@PutMapping("/{id}") //Lembrete para quando voltar
-	public ResponseEntity<Aluno> updateAluno(@RequestBody Aluno aluno, @PathVariable Integer id) {
-		//Aluno alunoGet = alunoService.getAlunoById(id);
-		Aluno alunoResponse = alunoService.updateAluno(aluno, id);
-		//if(alunoGet == null) 
-			//return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED); 
-		//else
-			return new ResponseEntity<>(alunoResponse, HttpStatus.OK); 
+	@PutMapping
+	//@PutMapping("/{id}")
+	public ResponseEntity<Aluno> updateAluno(@RequestBody Aluno aluno, Integer id) {
+		return new ResponseEntity<>(alunoService.updateAluno(aluno, id),
+				HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Boolean> delAluno(@PathVariable Integer id) {
-		Boolean alunoResponse = alunoService.delAluno(id);
-		if(alunoResponse)
-			return new ResponseEntity<>(alunoResponse, HttpStatus.OK);
+	public ResponseEntity<StatusDeleteEnum> delAluno(@PathVariable Integer id) {
+		StatusDeleteEnum resp = alunoService.delAluno(id);
+		if(resp == StatusDeleteEnum.NAO_ENCONTRADO)
+			return new ResponseEntity<>(resp, HttpStatus.NOT_FOUND);
+		else if(resp == StatusDeleteEnum.DELETADO)
+			return new ResponseEntity<>(resp, HttpStatus.OK);
 		else
-			return new ResponseEntity<>(alunoResponse, HttpStatus.NOT_MODIFIED);
+			return new ResponseEntity<>(resp, HttpStatus.NOT_MODIFIED);
 	}
 }

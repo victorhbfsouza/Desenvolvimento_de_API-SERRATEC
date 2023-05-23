@@ -3,6 +3,7 @@ package com.residencia.biblioteca.entities;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
@@ -13,7 +14,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "codigoEditora") 
+
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property = "codigoEditora"
+		)
 @Entity
 @Table(name = "editora")
 public class Editora {
@@ -35,10 +40,10 @@ public class Editora {
 	@Column(name = "imagem_url")
 	private String imagemUrl;
 	
-	//@JsonManagedReference (value = "livro-editora")
+	//@JsonManagedReference(value="editora-back")
 	@OneToMany(mappedBy = "editora")
-	private List<Livro> livro;
-	
+	private List<Livro> livros;
+
 	public Integer getCodigoEditora() {
 		return codigoEditora;
 	}
@@ -67,7 +72,7 @@ public class Editora {
 		return imagemFileName;
 	}
 
-	public void setImagemFileName (String imagemFileName) {
+	public void setImagemFileName(String imagemFileName) {
 		this.imagemFileName = imagemFileName;
 	}
 
@@ -79,11 +84,11 @@ public class Editora {
 		this.imagemUrl = imagemUrl;
 	}
 
-	public List<Livro> getLivro() {
-		return livro;
+	public List<Livro> getLivros() {
+		return livros;
 	}
 
-	public void setLivro(List<Livro> livro) {
-		this.livro = livro;
+	public void setLivros(List<Livro> livros) {
+		this.livros = livros;
 	}
 }

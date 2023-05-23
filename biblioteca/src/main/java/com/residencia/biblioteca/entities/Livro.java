@@ -18,11 +18,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "codigoLivro") 
+
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property = "codigoLivro"
+		)
 @Entity
 @Table(name = "livro")
 public class Livro {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "codigolivro")
@@ -38,17 +41,18 @@ public class Livro {
 	private Date dataLancamento;
 	
 	@Column(name = "codigoisbn")
-	private Integer codigoISBN;
-	
-	//@JsonManagedReference (value = "livro-emprestimo")
+	private Integer codigoIsbn;
+
+	//@JsonManagedReference(value="livro-back")
 	@OneToMany(mappedBy = "livro")
 	private List<Emprestimo> emprestimos;
 	
-	//@JsonBackReference(value = "livro-editora")
+	//@JsonBackReference(value="editora-back")
 	@ManyToOne
-	@JoinColumn(name = "codigoeditora", referencedColumnName = "codigoeditora")
+	@JoinColumn(name = "codigoeditora",
+			referencedColumnName = "codigoeditora")
 	private Editora editora;
-
+	
 	public Integer getCodigoLivro() {
 		return codigoLivro;
 	}
@@ -81,12 +85,12 @@ public class Livro {
 		this.dataLancamento = dataLancamento;
 	}
 
-	public Integer getCodigoISBN() {
-		return codigoISBN;
+	public Integer getCodigoIsbn() {
+		return codigoIsbn;
 	}
 
-	public void setCodigoISBN(Integer codigoISBN) {
-		this.codigoISBN = codigoISBN;
+	public void setCodigoIsbn(Integer codigoIsbn) {
+		this.codigoIsbn = codigoIsbn;
 	}
 
 	public List<Emprestimo> getEmprestimos() {

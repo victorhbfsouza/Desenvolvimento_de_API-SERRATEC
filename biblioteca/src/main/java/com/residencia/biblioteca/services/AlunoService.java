@@ -13,160 +13,122 @@ import com.residencia.biblioteca.dto.EmprestimoResumidoDTO;
 import com.residencia.biblioteca.dto.LivroResumidoDTO;
 import com.residencia.biblioteca.entities.Aluno;
 import com.residencia.biblioteca.entities.Emprestimo;
-import com.residencia.biblioteca.mappers.AlunoMapper;
+import com.residencia.biblioteca.enums.StatusDeleteEnum;
+import com.residencia.biblioteca.exception.AlunoNotFoundException;
 import com.residencia.biblioteca.repositories.AlunoRepository;
 
 @Service
 public class AlunoService {
-
 	@Autowired
 	AlunoRepository alunoRepository;
 	
 	@Autowired
-	AlunoMapper alunoMapper;
+	private ModelMapper modelMapper;
+	
+	@Autowired
+	EmailService emailService;
 	
 	public List<Aluno> getAllAlunos() {
 		return alunoRepository.findAll();
 	}
-
+	
 	public Aluno getAlunoById(Integer id) {
-		return alunoRepository.findById(id).orElse(null);
+		//return alunoRepository.findById(id).get();
+		
+		return alunoRepository.findById(id)
+        .orElseThrow(() -> new AlunoNotFoundException(id));
+		
+		//return alunoRepository.findById(id).orElse(null);
 	}
 	
-	/*//Eu quem fiz esse, depois ver o do professor
-	//DTO - aluno emprestimo
-	public AlunoResumidoDTO getAlunoDTOById(Integer id) {
+	public AlunoResumidoDTO getAlunoEmprestimosDto(Integer id) {
 		Aluno aluno = alunoRepository.findById(id).orElse(null);
-		AlunoResumidoDTO alunoResDTO = new AlunoResumidoDTO();
-		if(aluno == null) {
+		if(null == aluno)
 			return null;
-		}
-		alunoResDTO.setNome(aluno.getNome());
-		alunoResDTO.setCpf(aluno.getCpf());
-		List<EmprestimoResumidoDTO> listaEmprestimoDTO = new ArrayList<>();
+		
+		AlunoResumidoDTO alunoResDto = new AlunoResumidoDTO();
+		alunoResDto.setNome(aluno.getNome());
+		alunoResDto.setCpf(aluno.getCpf());
+		
+		List<EmprestimoResumidoDTO> listaEmprestimoResDto = new ArrayList<>();
 		for(Emprestimo emprestimo : aluno.getEmprestimos()) {
-			EmprestimoResumidoDTO emprestimoResDTO = new EmprestimoResumidoDTO();
-			emprestimoResDTO.setDataEmprestimo(emprestimo.getDataEmprestimo());
-			emprestimoResDTO.setDataEntrega(emprestimo.getDataEntrega());
-			//PAra resumir, mas pode dar NullPointer
-			//emprestimoResDTO.setnomeLivro(emprestimo.getLivro().getNomeLivro());
+			EmprestimoResumidoDTO emprestimoResDto = new EmprestimoResumidoDTO();
+			emprestimoResDto.setDataEmprestimo(emprestimo.getDataEmprestimo());
+			emprestimoResDto.setDataEntrega(emprestimo.getDataEntrega());
 			
-			//Emprestimo acessar o livro e pegar o nome
-			Livro livro = emprestimo.getLivro();
-			if(livro != null) {
-				LivroResumidoDTO livroDTO = new LivroResumidoDTO();
-				livroDTO.setNomeLivro(livro.getNomeLivro());
-				emprestimoResDTO.setnomeLivro(livroDTO.getNomeLivro());
-			}
-			listaEmprestimoDTO.add(emprestimoResDTO);
-		}
-		alunoResDTO.listaEmprestimosDTO(listaEmprestimoDTO);
-		return alunoResDTO;
-	}
-	*/
-	
-	//DTO - aluno emprestimo - Professor
-	public AlunoResumidoDTO getAlunoEmprestimosDTO(Integer id) {
-		Aluno aluno = alunoRepository.findById(id).orElse(null);
-		AlunoResumidoDTO alunoResDTO = new AlunoResumidoDTO();
-		if(aluno == null) {
-			return null;
-		}
-		alunoResDTO.setNome(aluno.getNome());
-		alunoResDTO.setCpf(aluno.getCpf());
-		List<EmprestimoResumidoDTO> listaEmprestimoDTO = new ArrayList<>();
-		for(Emprestimo emprestimo : aluno.getEmprestimos()) {
-			EmprestimoResumidoDTO emprestimoResDTO = new EmprestimoResumidoDTO();
-			emprestimoResDTO.setDataEmprestimo(emprestimo.getDataEmprestimo());
-			emprestimoResDTO.setDataEntrega(emprestimo.getDataEntrega());
-			/*	
-			LivroResumidoDTO livroDTO = new LivroResumidoDTO();
-			livroDTO.setNomeLivro(emprestimo.getLivro().getNomeLivro());
-				
-			if(emprestimo.getLivro() == null)
-				livroDTO.setNomeLivro(null);
-			else
-				emprestimoResDTO.setNomeLivro(livroDTO.getNomeLivro());
-			*/
-			LivroResumidoDTO livroDTO = new LivroResumidoDTO(emprestimo.getLivro().getNomeLivro());
-				
-			if(emprestimo.getLivro() == null)
-				livroDTO.setNomeLivro(null);
-			else
-				emprestimoResDTO.setNomeLivro(livroDTO.getNomeLivro());
+			LivroResumidoDTO livroResDto = new LivroResumidoDTO();
 			
-			listaEmprestimoDTO.add(emprestimoResDTO);
+			if(null == emprestimo.getLivro())
+				livroResDto.setNomeLivro(null);
+			else
+				livroResDto.setNomeLivro(emprestimo.getLivro().getNomeLivro());
+
+			emprestimoResDto.setLivroResumidoDto(livroResDto);
+			listaEmprestimoResDto.add(emprestimoResDto);
 		}
-		alunoResDTO.setlistaEmprestimosDTO(listaEmprestimoDTO);
-		return alunoResDTO;
+		
+		alunoResDto.setListaEmprestimoResDto(listaEmprestimoResDto);
+		
+		return alunoResDto;
 	}
 	
 	public Aluno saveAluno(Aluno aluno) {
-		return alunoRepository.save(aluno);
+		Aluno novoAluno = alunoRepository.save(aluno);
+		emailService.enviarEmail("aopaixao@gmail.com", 
+				"Novo Aluno Cadastrado", novoAluno.toString());
+		return novoAluno;
 	}
 	
-	/*
-	//Eu quem fiz
-	public AlunoDTO saveAlunoDTO(AlunoDTO alunoDTO) {
+	public AlunoDTO saveAlunoDto(AlunoDTO alunoDto) {
+		/*
 		Aluno aluno = new Aluno();
-		aluno.setNome(alunoDTO.getNome());
-		aluno.setDataNascimento(alunoDTO.getDataNascimento());
-		aluno.setCpf(alunoDTO.getCpf());
-		aluno.setLogradouro(alunoDTO.getLogradouro());
-		aluno.setNumeroLogradouro(alunoDTO.getNumeroLogradouro());
-		aluno.setComplemento(alunoDTO.getComplemento());
-		aluno.setBairro(alunoDTO.getBairro());
-		aluno.setCidade(alunoDTO.getCidade());
-		alunoRepository.save(aluno);
+		aluno.setBairro(alunoDto.getBairro());
+		aluno.setCidade(alunoDto.getCidade());
+		aluno.setComplemento(alunoDto.getComplemento());
+		aluno.setCpf(alunoDto.getCpf());
+		aluno.setDataNascimento(alunoDto.getDataNascimento());
+		aluno.setLogradouro(alunoDto.getLogradouro());
+		aluno.setNome(alunoDto.getNome());
+		aluno.setNumeroLogradouro(alunoDto.getNumeroLogradouro());
 		
 		Aluno novoAluno = alunoRepository.save(aluno);
-		
 		AlunoDTO novoAlunoDTO = new AlunoDTO();
 		
-		novoAlunoDTO.setNumeroMatriculaAluno(novoAluno.getNumeroMatriculaAluno());
-		novoAlunoDTO.setNome(novoAluno.getNome());
-		novoAlunoDTO.setDataNascimento(novoAluno.getDataNascimento());
-		novoAlunoDTO.setCpf(novoAluno.getCpf());
-		novoAlunoDTO.setLogradouro(novoAluno.getLogradouro());
-		novoAlunoDTO.setNumeroLogradouro(novoAluno.getNumeroLogradouro());
-		novoAlunoDTO.setComplemento(novoAluno.getComplemento());
 		novoAlunoDTO.setBairro(novoAluno.getBairro());
 		novoAlunoDTO.setCidade(novoAluno.getCidade());
+		novoAlunoDTO.setComplemento(novoAluno.getComplemento());
+		novoAlunoDTO.setCpf(novoAluno.getCpf());
+		novoAlunoDTO.setDataNascimento(novoAluno.getDataNascimento());
+		novoAlunoDTO.setLogradouro(novoAluno.getLogradouro());
+		novoAlunoDTO.setNome(novoAluno.getNome());
+		novoAlunoDTO.setNumeroLogradouro(novoAluno.getNumeroLogradouro());
+		novoAlunoDTO.setNumeroMatriculaAluno(novoAluno.getNumeroMatriculaAluno());
 		
 		return novoAlunoDTO;
-	}
-	*/
-	
-	public AlunoDTO saveAlunoDTO(AlunoDTO alunoDTO) {
-		
-		Aluno novoAluno = alunoRepository.save(alunoMapper.toEntity(alunoDTO));
-		AlunoDTO novoAlunoDTO = alunoMapper.toDto(novoAluno);
-		
-		/*
-		//Indo por Mapper - precisa da dependencia
-		ModelMapper modelMapper = new ModelMapper();
-		Aluno alunoMapper = modelMapper.map(alunoDTO, Aluno.class);
-		AlunoDTO alunoDTOMapper = modelMapper.map(alunoMapper, AlunoDTO.class);
-		return alunoDTOMapper;
 		*/
-		
-		return novoAlunoDTO;
+		Aluno aluno = modelMapper.map(alunoDto, Aluno.class);
+		Aluno novoAluno = alunoRepository.save(aluno);
+		return modelMapper.map(novoAluno, AlunoDTO.class);
 	}
-	
+
+	//Preciso ter cuidado com os dados da instancia aluno quando for atualizar um aluno
 	public Aluno updateAluno(Aluno aluno, Integer id) {
 		return alunoRepository.save(aluno);
 	}
-	
+
 	public void deleteAluno(Integer id) {
 		alunoRepository.deleteById(id);
 	}
 	
-	public Boolean delAluno(Integer id) {
+	public StatusDeleteEnum delAluno(Integer id) {
+		if(null == alunoRepository.findById(id).orElse(null))
+			return StatusDeleteEnum.NAO_ENCONTRADO;
+		
 		alunoRepository.deleteById(id);
 		Aluno alunoDeletado = alunoRepository.findById(id).orElse(null);
-		if(alunoDeletado == null)
-			return true;
+		if(null == alunoDeletado)
+			return StatusDeleteEnum.DELETADO;
 		else
-			return false;
+			return StatusDeleteEnum.NAO_DELETADO;
 	}
 }

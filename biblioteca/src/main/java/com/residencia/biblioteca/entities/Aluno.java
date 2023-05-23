@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
@@ -14,13 +13,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 
-@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "numeroMatriculaAluno") 
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property = "numeroMatriculaAluno"
+		)
 @Entity
 @Table(name = "aluno")
 public class Aluno {
-	//Propriedades com as anotações referentes a elas
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "numeromatriculaaluno")
@@ -32,6 +36,8 @@ public class Aluno {
 	@Column(name = "datanascimento")
 	private Date dataNascimento;
 	
+	@NotBlank(message = "O CPF precisa ser preenchido.")
+	@Size(max = 11)
 	@Column(name = "cpf")
 	private String cpf;
 	
@@ -50,7 +56,7 @@ public class Aluno {
 	@Column(name = "cidade")
 	private String cidade;
 	
-	//@JsonManagedReference(value = "aluno-emprestimo")
+	//@JsonManagedReference(value="aluno-back")
 	@OneToMany(mappedBy = "aluno")
 	private List<Emprestimo> emprestimos;
 
@@ -133,6 +139,4 @@ public class Aluno {
 	public void setEmprestimos(List<Emprestimo> emprestimos) {
 		this.emprestimos = emprestimos;
 	}
-	
-	
 }

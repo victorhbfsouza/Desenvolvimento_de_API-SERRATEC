@@ -1,10 +1,10 @@
 package com.residencia.biblioteca.entities;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
@@ -16,16 +16,23 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "codigoEmprestimo") 
+/*
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property = "codigoEmprestimo"
+		)
+*/		
 @Entity
 @Table(name = "emprestimo")
 public class Emprestimo {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "codigoemprestimo")
 	private Integer codigoEmprestimo;
-		
+	
+	
+	//private Integer codigoLivro;
+	
 	@Column(name = "dataemprestimo")
 	private Date dataEmprestimo;
 	
@@ -33,16 +40,18 @@ public class Emprestimo {
 	private Date dataEntrega;
 	
 	@Column(name = "valoremprestimo")
-	private double valorEmprestimo;
+	private BigDecimal valorEmprestimo;
 	
-	//@JsonBackReference(value = "aluno-emprestimo")
+	//@JsonBackReference(value="aluno-back")
 	@ManyToOne
-	@JoinColumn(name = "numeromatriculaaluno", referencedColumnName = "numeromatriculaaluno")
+	@JoinColumn(name = "numeromatriculaaluno",
+	referencedColumnName = "numeromatriculaaluno")
 	private Aluno aluno;
-	
-	//@JsonBackReference(value = "livro-emprestimo")
+
+	//@JsonBackReference(value="livro-back")
 	@ManyToOne
-	@JoinColumn(name = "codigolivro", referencedColumnName = "codigolivro")
+	@JoinColumn(name = "codigolivro",
+			referencedColumnName = "codigolivro")
 	private Livro livro;
 
 	public Integer getCodigoEmprestimo() {
@@ -69,11 +78,11 @@ public class Emprestimo {
 		this.dataEntrega = dataEntrega;
 	}
 
-	public double getValorEmprestimo() {
+	public BigDecimal getValorEmprestimo() {
 		return valorEmprestimo;
 	}
 
-	public void setValorEmprestimo(double valorEmprestimo) {
+	public void setValorEmprestimo(BigDecimal valorEmprestimo) {
 		this.valorEmprestimo = valorEmprestimo;
 	}
 

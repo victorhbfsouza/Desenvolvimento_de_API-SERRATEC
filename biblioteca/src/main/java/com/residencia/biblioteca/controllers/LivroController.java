@@ -20,51 +20,47 @@ import com.residencia.biblioteca.services.LivroService;
 @RestController
 @RequestMapping("/livros")
 public class LivroController {
-	
 	@Autowired
 	LivroService livroService;
-	
+
 	@GetMapping
 	public ResponseEntity<List<Livro>> getAllLivros() {
-		List<Livro> livroResponse = livroService.getAllLivros();
-		if(livroResponse == null)
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		else
-			return new ResponseEntity<>(livroResponse, HttpStatus.OK);
+		return new ResponseEntity<>(livroService.getAllLivros(),
+				HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Livro> getLivroById(@PathVariable Integer id) {
+		//return livroService.getLivroById(id);
 		Livro livroResponse = livroService.getLivroById(id);
-		if(livroResponse == null)
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		if(null == livroResponse)
+			return new ResponseEntity<>(null,
+					HttpStatus.NOT_FOUND);
 		else
-			return new ResponseEntity<>(livroResponse, HttpStatus.OK);
+			return new ResponseEntity<>(livroResponse,
+					HttpStatus.OK);
+			
 	}
 	
 	@PostMapping
 	public ResponseEntity<Livro> saveLivro(@RequestBody Livro livro) {
-		Livro livroResponse = livroService.saveLivro(livro);
-		return new ResponseEntity<>(livroResponse, HttpStatus.CREATED);
+		return new ResponseEntity<>(livroService.saveLivro(livro),
+				HttpStatus.CREATED);
 	}
 	
-	//@PutMapping
-	@PutMapping("/{id}")
-	public ResponseEntity<Livro> updateLivro(@RequestBody Livro livro, @PathVariable Integer id) {
-		//Livro livroGet = livroService.getLivroById(id);
-		Livro livroResponse = livroService.updateLivro(livro, id);
-		//if(livroGet == null) 
-			//return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED); 
-		//else
-			return new ResponseEntity<>(livroResponse, HttpStatus.OK); 
+	@PutMapping
+	//@PutMapping("/{id}")
+	public ResponseEntity<Livro> updateLivro(@RequestBody Livro livro, Integer id) {
+		return new ResponseEntity<>(livroService.updateLivro(livro, id),
+				HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Boolean> delLivro(@PathVariable Integer id) {
-		Boolean livroResponse = livroService.delLivro(id);
-		if(livroResponse)
-			return new ResponseEntity<>(livroResponse, HttpStatus.OK);
+		Boolean resp = livroService.delLivro(id);
+		if(resp)
+			return new ResponseEntity<>(resp, HttpStatus.OK);
 		else
-			return new ResponseEntity<>(livroResponse, HttpStatus.NOT_MODIFIED);
+			return new ResponseEntity<>(resp, HttpStatus.NOT_MODIFIED);
 	}
 }

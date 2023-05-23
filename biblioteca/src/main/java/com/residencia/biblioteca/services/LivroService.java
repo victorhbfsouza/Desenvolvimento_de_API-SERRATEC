@@ -10,34 +10,35 @@ import com.residencia.biblioteca.repositories.LivroRepository;
 
 @Service
 public class LivroService {
-
 	@Autowired
-	LivroRepository livroService;
+	LivroRepository livroRepository;
 	
-	public List<Livro> getAllLivros(){
-		return livroService.findAll();
+	public List<Livro> getAllLivros() {
+		return livroRepository.findAll();
 	}
 	
 	public Livro getLivroById(Integer id) {
-		return livroService.findById(id).orElse(null);
+		//return livroRepository.findById(id).get();
+		return livroRepository.findById(id).orElse(null);
 	}
 	
 	public Livro saveLivro(Livro livro) {
-		return livroService.save(livro);
+		return livroRepository.save(livro);
 	}
-	
+
+	//Preciso ter cuidado com os dados da instancia livro quando for atualizar um livro
 	public Livro updateLivro(Livro livro, Integer id) {
-		return livroService.save(livro);
+		return livroRepository.save(livro);
 	}
-	
+
 	public void deleteLivro(Integer id) {
-		livroService.deleteById(id);
+		livroRepository.deleteById(id);
 	}
 	
 	public Boolean delLivro(Integer id) {
-		livroService.deleteById(id);
-		Livro livroDeletado = livroService.findById(id).orElse(null);
-		if(livroDeletado == null)
+		livroRepository.deleteById(id);
+		Livro livroDeletado = livroRepository.findById(id).orElse(null);
+		if(null == livroDeletado)
 			return true;
 		else
 			return false;

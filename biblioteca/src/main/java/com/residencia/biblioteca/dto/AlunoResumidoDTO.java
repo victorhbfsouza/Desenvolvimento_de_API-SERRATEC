@@ -3,27 +3,25 @@ package com.residencia.biblioteca.dto;
 import java.util.List;
 
 public class AlunoResumidoDTO {
-	
 	private String nome;
 	private String cpf;
-	private List<EmprestimoResumidoDTO> listaEmprestimosDTO;
-	
+	private List<EmprestimoResumidoDTO> listaEmprestimoResDto;
+
 	public AlunoResumidoDTO() {
 		super();
-	}
-
-	//Usado pelo professor
-	public AlunoResumidoDTO(String nome, String cpf, List<EmprestimoResumidoDTO> listaEmprestimosDTO) {
-		super();
-		this.nome = nome;
-		this.cpf = cpf;
-		this.listaEmprestimosDTO = listaEmprestimosDTO;
 	}
 
 	public AlunoResumidoDTO(String nome, String cpf) {
 		super();
 		this.nome = nome;
 		this.cpf = cpf;
+	}
+
+	public AlunoResumidoDTO(String nome, String cpf, List<EmprestimoResumidoDTO> listaEmprestimoResDto) {
+		super();
+		this.nome = nome;
+		this.cpf = cpf;
+		this.listaEmprestimoResDto = listaEmprestimoResDto;
 	}
 
 	public String getNome() {
@@ -42,11 +40,11 @@ public class AlunoResumidoDTO {
 		this.cpf = cpf;
 	}
 
-	public List<EmprestimoResumidoDTO> getlistaEmprestimosDTO() {
-		return listaEmprestimosDTO;
+	public List<EmprestimoResumidoDTO> getListaEmprestimoResDto() {
+		return listaEmprestimoResDto;
 	}
 
-	public void setlistaEmprestimosDTO(List<EmprestimoResumidoDTO> listaEmprestimosDTO) {
-		this.listaEmprestimosDTO = listaEmprestimosDTO;
+	public void setListaEmprestimoResDto(List<EmprestimoResumidoDTO> listaEmprestimoResDto) {
+		this.listaEmprestimoResDto = listaEmprestimoResDto;
 	}
 }

@@ -3,7 +3,6 @@ package com.residencia.biblioteca.dto;
 import java.util.Date;
 
 public class LivroResumidoDTO {
-	
 	private String nomeLivro;
 	private String nomeAutor;
 	private Date dataLancamento;
@@ -11,7 +10,7 @@ public class LivroResumidoDTO {
 	public LivroResumidoDTO() {
 		super();
 	}
-	
+
 	public LivroResumidoDTO(String nomeLivro, String nomeAutor, Date dataLancamento) {
 		super();
 		this.nomeLivro = nomeLivro;
