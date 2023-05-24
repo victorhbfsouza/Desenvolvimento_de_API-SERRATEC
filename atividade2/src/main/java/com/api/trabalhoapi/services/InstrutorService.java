@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.api.trabalhoapi.entities.Instrutor;
 import com.api.trabalhoapi.repository.InstrutorRepository;
-//Verificar importação EmailService para ocorrer o envio ao cadastrar um novo instrutor
 
 @Service
 public class InstrutorService {
@@ -15,7 +14,6 @@ public class InstrutorService {
 	@Autowired //Serve para instanciar outra classe
 	InstrutorRepository instrutorRepository;
 	
-	// Instanciando a classe EmailService
 	@Autowired
 	EmailService emailService;
 	
