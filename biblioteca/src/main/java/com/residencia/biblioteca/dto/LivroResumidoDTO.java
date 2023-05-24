@@ -3,6 +3,7 @@ package com.residencia.biblioteca.dto;
 import java.util.Date;
 
 public class LivroResumidoDTO {
+	
 	private String nomeLivro;
 	private String nomeAutor;
 	private Date dataLancamento;
@@ -16,11 +17,6 @@ public class LivroResumidoDTO {
 		this.nomeLivro = nomeLivro;
 		this.nomeAutor = nomeAutor;
 		this.dataLancamento = dataLancamento;
-	}
-	
-	public LivroResumidoDTO(String nomeLivro) {
-		super();
-		this.nomeLivro = nomeLivro;
 	}
 
 	public String getNomeLivro() {
@@ -45,5 +41,5 @@ public class LivroResumidoDTO {
 
 	public void setDataLancamento(Date dataLancamento) {
 		this.dataLancamento = dataLancamento;
-	}
+	}	
 }

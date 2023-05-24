@@ -3,9 +3,6 @@ package com.residencia.biblioteca.entities;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,51 +10,47 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
-
+/*
 @JsonIdentityInfo(
 		generator = ObjectIdGenerators.PropertyGenerator.class,
 		property = "numeroMatriculaAluno"
-		)
+		) */
 @Entity
-@Table(name = "aluno")
-public class Aluno {
+@Table (name = "aluno")
+public class Aluno {	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "numeromatriculaaluno")
+	@Column (name = "numeromatriculaaluno")
 	private Integer numeroMatriculaAluno;
 	
-	@Column(name = "nome")
+	@Column (name = "nome")
 	private String nome;
 	
-	@Column(name = "datanascimento")
+	@Column (name = "datanascimento")
 	private Date dataNascimento;
 	
-	@NotBlank(message = "O CPF precisa ser preenchido.")
-	@Size(max = 11)
-	@Column(name = "cpf")
+	@Column (name = "cpf")
 	private String cpf;
 	
-	@Column(name = "logradouro")
+	@Column (name = "logradouro")
 	private String logradouro;
 	
-	@Column(name = "numerologradouro")
+	@Column (name = "numerologradouro")
 	private String numeroLogradouro;
 	
-	@Column(name = "complemento")
+	@Column (name = "complemento")
 	private String complemento;
 	
-	@Column(name = "bairro")
+	@Column (name = "bairro")
 	private String bairro;
 	
-	@Column(name = "cidade")
+	@Column (name = "cidade")
 	private String cidade;
 	
-	//@JsonManagedReference(value="aluno-back")
-	@OneToMany(mappedBy = "aluno")
+	//@JsonManagedReference (value = "aluno-back")
+	@OneToMany (mappedBy = "aluno")
 	private List<Emprestimo> emprestimos;
 
 	public Integer getNumeroMatriculaAluno() {
@@ -139,4 +132,6 @@ public class Aluno {
 	public void setEmprestimos(List<Emprestimo> emprestimos) {
 		this.emprestimos = emprestimos;
 	}
+	
+	
 }

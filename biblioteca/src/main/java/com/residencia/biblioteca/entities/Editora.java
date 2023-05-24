@@ -2,10 +2,6 @@ package com.residencia.biblioteca.entities;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,34 +10,37 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-
+/*
 @JsonIdentityInfo(
 		generator = ObjectIdGenerators.PropertyGenerator.class,
 		property = "codigoEditora"
-		)
+		)*/
 @Entity
-@Table(name = "editora")
+@Table (name = "editora")
 public class Editora {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "codigoeditora")
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column (name = "codigoeditora")
 	private Integer codigoEditora;
 	
-	@Column(name = "nome")
+	@Column (name = "nome")
 	private String nome;
 	
-	@Column(name = "imagem_nome")
+	@Column (name = "imagem_nome")
 	private String imagemNome;
 	
-	@Column(name = "imagem_filename")
+	@Column (name = "imagem_filename")
 	private String imagemFileName;
 	
-	@Column(name = "imagem_url")
+	@Column (name = "imagem_url")
 	private String imagemUrl;
 	
-	//@JsonManagedReference(value="editora-back")
-	@OneToMany(mappedBy = "editora")
+	@Column (name = "cnpj")
+	private String cnpj;
+	
+	//@JsonManagedReference (value = "editora-back")
+	@OneToMany (mappedBy = "editora")
 	private List<Livro> livros;
 
 	public Integer getCodigoEditora() {
@@ -91,4 +90,15 @@ public class Editora {
 	public void setLivros(List<Livro> livros) {
 		this.livros = livros;
 	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	
+	
 }

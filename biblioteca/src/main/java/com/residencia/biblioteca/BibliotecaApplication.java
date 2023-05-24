@@ -9,12 +9,13 @@ import org.springframework.context.annotation.Bean;
 public class BibliotecaApplication {
 
 	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
+	public ModelMapper modelMapper(){
+	return new ModelMapper();
 	}
 	
 	public static void main(String[] args) {
 		SpringApplication.run(BibliotecaApplication.class, args);
 	}
+	
 
 }

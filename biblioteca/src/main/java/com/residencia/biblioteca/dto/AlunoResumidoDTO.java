@@ -3,25 +3,13 @@ package com.residencia.biblioteca.dto;
 import java.util.List;
 
 public class AlunoResumidoDTO {
+	
 	private String nome;
 	private String cpf;
-	private List<EmprestimoResumidoDTO> listaEmprestimoResDto;
-
+	private List<EmprestimoResumidoDTO> listaEmprestimosResDTO;
+	
 	public AlunoResumidoDTO() {
 		super();
-	}
-
-	public AlunoResumidoDTO(String nome, String cpf) {
-		super();
-		this.nome = nome;
-		this.cpf = cpf;
-	}
-
-	public AlunoResumidoDTO(String nome, String cpf, List<EmprestimoResumidoDTO> listaEmprestimoResDto) {
-		super();
-		this.nome = nome;
-		this.cpf = cpf;
-		this.listaEmprestimoResDto = listaEmprestimoResDto;
 	}
 
 	public String getNome() {
@@ -40,11 +28,12 @@ public class AlunoResumidoDTO {
 		this.cpf = cpf;
 	}
 
-	public List<EmprestimoResumidoDTO> getListaEmprestimoResDto() {
-		return listaEmprestimoResDto;
+	public List<EmprestimoResumidoDTO> getListaEmprestimosResDTO() {
+		return listaEmprestimosResDTO;
 	}
 
-	public void setListaEmprestimoResDto(List<EmprestimoResumidoDTO> listaEmprestimoResDto) {
-		this.listaEmprestimoResDto = listaEmprestimoResDto;
+	public void setListaEmprestimosResDTO(List<EmprestimoResumidoDTO> listaEmprestimosResDTO) {
+		this.listaEmprestimosResDTO = listaEmprestimosResDTO;
 	}
+
 }

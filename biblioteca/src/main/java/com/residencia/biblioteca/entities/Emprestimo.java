@@ -3,10 +3,6 @@ package com.residencia.biblioteca.entities;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,38 +16,33 @@ import jakarta.persistence.Table;
 @JsonIdentityInfo(
 		generator = ObjectIdGenerators.PropertyGenerator.class,
 		property = "codigoEmprestimo"
-		)
-*/		
+		)*/
 @Entity
-@Table(name = "emprestimo")
+@Table (name = "emprestimo")
 public class Emprestimo {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "codigoemprestimo")
-	private Integer codigoEmprestimo;
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column (name = "codigoemprestimo")
+	private Integer codigoEmprestimo;	
 	
-	
-	//private Integer codigoLivro;
-	
-	@Column(name = "dataemprestimo")
+	@Column (name = "dataemprestimo")
 	private Date dataEmprestimo;
 	
-	@Column(name = "dataentrega")
+	@Column (name = "dataentrega")
 	private Date dataEntrega;
 	
-	@Column(name = "valoremprestimo")
-	private BigDecimal valorEmprestimo;
+	@Column (name = "valoremprestimo")
+	private BigDecimal valorEmprestimo ;
 	
-	//@JsonBackReference(value="aluno-back")
+	//@JsonBackReference (value = "aluno-back")
 	@ManyToOne
-	@JoinColumn(name = "numeromatriculaaluno",
-	referencedColumnName = "numeromatriculaaluno")
+	@JoinColumn (name = "numeromatriculaaluno" , referencedColumnName = "numeromatriculaaluno")
 	private Aluno aluno;
-
-	//@JsonBackReference(value="livro-back")
+	
+	//@JsonBackReference (value = "livro-back")
 	@ManyToOne
-	@JoinColumn(name = "codigolivro",
-			referencedColumnName = "codigolivro")
+	@JoinColumn (name = "codigolivro" , referencedColumnName = "codigolivro")
 	private Livro livro;
 
 	public Integer getCodigoEmprestimo() {
@@ -60,7 +51,7 @@ public class Emprestimo {
 
 	public void setCodigoEmprestimo(Integer codigoEmprestimo) {
 		this.codigoEmprestimo = codigoEmprestimo;
-	}
+	}	
 
 	public Date getDataEmprestimo() {
 		return dataEmprestimo;
@@ -101,4 +92,6 @@ public class Emprestimo {
 	public void setLivro(Livro livro) {
 		this.livro = livro;
 	}
+	
+	
 }

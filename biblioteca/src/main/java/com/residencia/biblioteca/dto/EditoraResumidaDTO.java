@@ -2,22 +2,22 @@ package com.residencia.biblioteca.dto;
 
 import java.util.List;
 
+import com.residencia.biblioteca.entities.Editora;
+
 public class EditoraResumidaDTO {
+
 	private Integer codigoEditora;
 	private String nome;
-	private String cnpj;
 	private List<LivroResumidoDTO> listaLivrosResDto;
 	
-	public EditoraResumidaDTO() {
+	
+	public EditoraResumidaDTO(Editora editora, List<LivroResumidoDTO> listaLivroResDto) {
 		super();
+		this.codigoEditora = editora.getCodigoEditora();
+		this.nome = editora.getNome();
+		this.listaLivrosResDto = listaLivroResDto;
 	}
 	
-	public EditoraResumidaDTO(Integer codigoEditora, String nome) {
-		super();
-		this.codigoEditora = codigoEditora;
-		this.nome = nome;
-	}
-
 	public Integer getCodigoEditora() {
 		return codigoEditora;
 	}
@@ -37,13 +37,6 @@ public class EditoraResumidaDTO {
 
 	public void setListaLivrosResDto(List<LivroResumidoDTO> listaLivrosResDto) {
 		this.listaLivrosResDto = listaLivrosResDto;
-	}
-
-	public String getCnpj() {
-		return cnpj;
-	}
-
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
+	}	
+	
 }
