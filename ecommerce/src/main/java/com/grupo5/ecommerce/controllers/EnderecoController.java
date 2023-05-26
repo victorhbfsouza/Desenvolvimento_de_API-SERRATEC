@@ -31,7 +31,6 @@ public class EnderecoController {
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Endereco> getEnderecoById(@PathVariable Integer id) {
-		//return enderecoService.getEnderecoById(id);
 		Endereco enderecoResponse = enderecoService.getEnderecoById(id);
 		if(null == enderecoResponse) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

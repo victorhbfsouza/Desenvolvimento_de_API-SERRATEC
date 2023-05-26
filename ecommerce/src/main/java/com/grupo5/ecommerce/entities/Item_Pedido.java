@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,7 +26,7 @@ public class Item_Pedido {
 	private BigDecimal preco_venda;
 	
 	@Column (name = "percentual_desconto")
-	private Percent percentual_desconto;
+	private Double percentual_desconto;
 	// ver o tipo de atributo percentual
 	
 	@Column (name = "valor_bruto")
@@ -33,9 +35,13 @@ public class Item_Pedido {
 	@Column (name = "valor_liquido")
 	private BigDecimal valor_liquido;
 	
-	//FK id_pedido
+	@ManyToOne
+	@JoinColumn (name = "id_pedido", referencedColumnName = "id_pedido")
+	private Pedido pedido;
 	
-	//FK id_produto
+	@ManyToOne
+	@JoinColumn (name = "id_produto", referencedColumnName = "id_produto")
+	private Produto produto;
 
 	public Integer getId_item_pedido() {
 		return id_item_pedido;
@@ -61,6 +67,14 @@ public class Item_Pedido {
 		this.preco_venda = preco_venda;
 	}
 
+	public Double getPercentual_desconto() {
+		return percentual_desconto;
+	}
+
+	public void setPercentual_desconto(Double percentual_desconto) {
+		this.percentual_desconto = percentual_desconto;
+	}
+
 	public BigDecimal getValor_bruto() {
 		return valor_bruto;
 	}
@@ -75,6 +89,22 @@ public class Item_Pedido {
 
 	public void setValor_liquido(BigDecimal valor_liquido) {
 		this.valor_liquido = valor_liquido;
+	}
+
+	public Pedido getPedido() {
+		return pedido;
+	}
+
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
+
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
 	}
 	
 }

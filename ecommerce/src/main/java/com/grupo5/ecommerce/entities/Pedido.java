@@ -2,12 +2,16 @@ package com.grupo5.ecommerce.entities;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,7 +37,12 @@ public class Pedido {
 	@Column (name = "valor_total")
 	private BigDecimal valor_total;
 	
-	//FK id_cliente
+	@ManyToOne
+	@JoinColumn (name = "id_cliente", referencedColumnName = "id_cliente")
+	private Cliente cliente;
+	
+	@OneToMany (mappedBy = "pedido")
+	private List<Item_Pedido> item_pedidos;
 
 	public Integer getId_pedido() {
 		return id_pedido;
@@ -81,6 +90,22 @@ public class Pedido {
 
 	public void setValor_total(BigDecimal valor_total) {
 		this.valor_total = valor_total;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public List<Item_Pedido> getItem_pedidos() {
+		return item_pedidos;
+	}
+
+	public void setItem_pedidos(List<Item_Pedido> item_pedidos) {
+		this.item_pedidos = item_pedidos;
 	}
 	
 }

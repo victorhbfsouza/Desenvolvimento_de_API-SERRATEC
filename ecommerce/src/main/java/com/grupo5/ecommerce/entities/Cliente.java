@@ -1,12 +1,15 @@
 package com.grupo5.ecommerce.entities;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -34,7 +37,11 @@ public class Cliente {
 	@Column (name = "data_nascimento")
 	private Date data_nascimento;
 	
-	// FK id_endereco
+	@OneToMany (mappedBy = "pedido")
+	private List<Pedido> Pedidos;
+	
+	@OneToOne(mappedBy = "cliente")
+	private Endereco endereco;
 
 	public Integer getId_cliente() {
 		return id_cliente;
@@ -60,12 +67,44 @@ public class Cliente {
 		this.nome_completo = nome_completo;
 	}
 
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
 	public Date getData_nascimento() {
 		return data_nascimento;
 	}
 
 	public void setData_nascimento(Date data_nascimento) {
 		this.data_nascimento = data_nascimento;
+	}
+
+	public List<Pedido> getPedidos() {
+		return Pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		Pedidos = pedidos;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 	
 }
