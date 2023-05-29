@@ -18,48 +18,51 @@ import com.grupo5.ecommerce.entities.Endereco;
 import com.grupo5.ecommerce.services.EnderecoService;
 
 @RestController
-@RequestMapping(value = "/enderecos")
+@RequestMapping("/enderecos")
 public class EnderecoController {
 	
 	@Autowired
 	EnderecoService enderecoService;
 	
 	@GetMapping
-	public ResponseEntity<List<Endereco>> getAllEnderecos() {
-		return new ResponseEntity<>(enderecoService.getAllEnderecos(),HttpStatus.OK);
-	}
-	
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Endereco> getEnderecoById(@PathVariable Integer id) {
-		Endereco enderecoResponse = enderecoService.getEnderecoById(id);
-		if(null == enderecoResponse) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}else {
-			return new ResponseEntity<>(enderecoResponse, HttpStatus.OK);
-		}
-	}
-	
-	@PostMapping
-	public ResponseEntity<Endereco> saveEndereco(@RequestBody Endereco endereco) {
-		return new ResponseEntity<>(enderecoService.saveEndereco(endereco), HttpStatus.CREATED);
-	}
-	
-	@PutMapping (value = "/{id}")
-	//@PutMapping(value = "/{id}")
-	public ResponseEntity<Endereco> updateEndereco(@RequestBody Endereco endereco, Integer id) {
-		return new ResponseEntity<>(enderecoService.updateEndereco(endereco, id), HttpStatus.OK);
-	}
-	
-	@DeleteMapping(value = "/{id}")
-		public ResponseEntity<Boolean> delEndereco(@PathVariable Integer id) {
-		//return enderecoService.delEndereco(id);
-		Boolean resp = enderecoService.delEndereco(id);
-		if(resp) {
-			return new ResponseEntity<>(resp, HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(resp, HttpStatus.NOT_MODIFIED);
-		}	
-	}
+    public ResponseEntity<List<Endereco>> getAllEnderecos() {
+        return new ResponseEntity<>(enderecoService.getAllEnderecos(),
+                HttpStatus.OK);
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Endereco> getEnderecoById(@PathVariable Integer id) {
+        Endereco enderecoResponse = enderecoService.getEnderecoById(id);
+        if(null == enderecoResponse)
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        else
+            return new ResponseEntity<>(enderecoResponse, HttpStatus.OK);
+    }
+    
+    
+    @PostMapping
+    public ResponseEntity<Endereco> saveEndereco(@RequestBody Endereco endereco) {
+        return new ResponseEntity<>(enderecoService.saveEndereco(endereco),HttpStatus.CREATED);
+    }
+    
+    @PutMapping
+    public ResponseEntity<Endereco> updateEndereco(@RequestBody Endereco endereco) {
+    	if(enderecoService.getEnderecoById(endereco.getIdEndereco()) != null) {
+            return new ResponseEntity<> (enderecoService.updateEndereco(endereco),
+                    HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<> (endereco,
+                    HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> delEndereco(@PathVariable Integer id) {
+        Boolean resp = enderecoService.delEndereco(id);
+        if(resp)
+        	return new ResponseEntity<>(resp,HttpStatus.OK);
+        else
+        	return new ResponseEntity<>(resp,HttpStatus.NOT_MODIFIED);
+    }
 }
-
-

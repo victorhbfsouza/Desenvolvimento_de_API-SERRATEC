@@ -1,53 +1,60 @@
 package com.grupo5.ecommerce.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+@JsonIdentityInfo(
+		scope = Endereco.class,
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property = "idEndereco"
+		)
 @Entity
-@Table (name = "endereco")
+@Table(name = "endereco")
 public class Endereco {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_endereco;
-	
-	@Column (name = "cep")
+	@Column(name = "id_endereco")
+	private Integer idEndereco;
+
+	@Column(name = "cep")
 	private String cep;
 	
-	@Column (name = "rua")
+	@Column(name = "rua")
 	private String rua;
 	
-	@Column (name = "bairro")
+	@Column(name = "bairro")
 	private String bairro;
 	
-	@Column (name = "cidade")
+	@Column(name = "cidade")
 	private String cidade;
 	
-	@Column (name = "numero")
+	@Column(name = "numero")
 	private Integer numero;
 	
-	@Column (name = "complemento")
+	@Column(name = "complemento")
 	private String complemento;
 	
-	@Column (name = "uf")
+	@Column(name = "uf")
 	private String uf;
 	
-	@OneToOne
-	@JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
+	@OneToOne (mappedBy = "endereco")
 	private Cliente cliente;
 
-	public Integer getId_endereco() {
-		return id_endereco;
+	public Integer getIdEndereco() {
+		return idEndereco;
 	}
 
-	public void setId_endereco(Integer id_endereco) {
-		this.id_endereco = id_endereco;
+	public void setIdEndereco(Integer idEndereco) {
+		this.idEndereco = idEndereco;
 	}
 
 	public String getCep() {
@@ -114,4 +121,11 @@ public class Endereco {
 		this.cliente = cliente;
 	}
 
+	@Override
+	public String toString() {
+		return "Endereco [idEndereco=" + idEndereco + ", cep=" + cep + ", rua=" + rua + ", bairro=" + bairro
+				+ ", cidade=" + cidade + ", numero=" + numero + ", complemento=" + complemento + ", uf=" + uf
+				+ ", cliente=" + cliente + "]";
+	}
 }
+

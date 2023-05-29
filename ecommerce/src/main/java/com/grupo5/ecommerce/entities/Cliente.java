@@ -1,54 +1,92 @@
 package com.grupo5.ecommerce.entities;
 
-import java.util.Date;
+import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+@JsonIdentityInfo(
+		scope = Cliente.class,
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property = "idCliente"
+		)
 @Entity
-@Table (name = "cliente")
+@Table(name = "cliente")
 public class Cliente {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_cliente;
+	@Column(name = "id_cliente")
+	private Integer idCliente;
 	
-	@Column (name = "email")
+	@Column(name = "cpf")
+	private Integer cpf;
+	
+	@Column(name = "nome_completo")
+	private String nome;
+	
+	@Column(name = "email")
 	private String email;
 	
-	@Column (name = "nome_completo")
-	private String nome_completo;
-	
-	@Column (name = "cpf")
-	private String cpf;
-	//ver atributo Integer ou String
-	
-	@Column (name = "telefone")
+	@Column(name = "telefone")
 	private String telefone;
-	//ver atributo Integer ou String
 	
-	@Column (name = "data_nascimento")
-	private Date data_nascimento;
+	@Column(name = "data_nascimento")
+	private Instant dataNascimento;
 	
-	@OneToMany (mappedBy = "pedido")
-	private List<Pedido> Pedidos;
+	@Column(name = "user_name")
+	private String username;
 	
-	@OneToOne(mappedBy = "cliente")
-	private Endereco endereco;
+	@Column(name = "password")
+	private String password;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "cliente_roles", joinColumns = @JoinColumn(name = "id_cliente"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
 
-	public Integer getId_cliente() {
-		return id_cliente;
+	@OneToOne
+	@JoinColumn(name = "id_endereco", referencedColumnName = "id_endereco")
+	private Endereco endereco;
+	
+	@OneToMany(mappedBy = "cliente")
+	private List<Pedido> pedido;
+
+	public Integer getIdCliente() {
+		return idCliente;
 	}
 
-	public void setId_cliente(Integer id_cliente) {
-		this.id_cliente = id_cliente;
+	public void setIdCliente(Integer numeroIdCliente) {
+		this.idCliente = numeroIdCliente;
+	}
+
+	public Integer getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(Integer cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getEmail() {
@@ -59,22 +97,6 @@ public class Cliente {
 		this.email = email;
 	}
 
-	public String getNome_completo() {
-		return nome_completo;
-	}
-
-	public void setNome_completo(String nome_completo) {
-		this.nome_completo = nome_completo;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
 	public String getTelefone() {
 		return telefone;
 	}
@@ -83,20 +105,12 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 
-	public Date getData_nascimento() {
-		return data_nascimento;
+	public Instant getDataNascimento() {
+		return dataNascimento;
 	}
 
-	public void setData_nascimento(Date data_nascimento) {
-		this.data_nascimento = data_nascimento;
-	}
-
-	public List<Pedido> getPedidos() {
-		return Pedidos;
-	}
-
-	public void setPedidos(List<Pedido> pedidos) {
-		Pedidos = pedidos;
+	public void setDataNascimento(Instant dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 
 	public Endereco getEndereco() {
@@ -105,6 +119,45 @@ public class Cliente {
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+
+	public List<Pedido> getPedido() {
+		return pedido;
+	}
+
+	public void setPedido(List<Pedido> pedido) {
+		this.pedido = pedido;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	@Override
+	public String toString() {
+		return "Cliente [numeroIdCliente=" + idCliente + ", cpf=" + cpf + ", nome=" + nome + ", email=" + email
+				+ ", telefone=" + telefone + ", dataNascimento=" + dataNascimento + ", endereco=" + endereco
+				+ ", pedido=" + pedido + "]";
 	}
 	
 }

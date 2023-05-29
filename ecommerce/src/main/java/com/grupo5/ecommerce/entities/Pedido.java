@@ -1,8 +1,12 @@
 package com.grupo5.ecommerce.entities;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,98 +18,90 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+@JsonIdentityInfo(
+		scope = Pedido.class,
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property = "idPedido"
+		)
 @Entity
-@Table (name = "pedido")
+@Table(name = "pedido")
 public class Pedido {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_pedido;
+	@Column(name = "id_pedido")
+	private Integer idPedido;
 	
-	@Column (name = "data_pedido")
-	private Date data_pedido;
+	@Column(name = "data_pedido")
+	private Instant dataPedido;
 	
-	@Column (name = "data_entrega")
-	private Date data_entrega;
+	@Column(name = "data_entrega")
+	private Instant dataEntrega;
 	
-	@Column (name = "data_envio")
-	private Date data_envio;
+	@Column(name = "data_envio")
+	private Instant dataEnvio;
 	
-	@Column (name = "status")
-	private Boolean status;
+	@Column(name = "status")
+	private String status;
 	
-	@Column (name = "valor_total")
-	private BigDecimal valor_total;
+	@Column(name = "valor_total")
+	private BigDecimal valorTotal;
 	
 	@ManyToOne
-	@JoinColumn (name = "id_cliente", referencedColumnName = "id_cliente")
+	@JoinColumn(name = "id_cliente", 
+					referencedColumnName = "id_cliente")
 	private Cliente cliente;
 	
-	@OneToMany (mappedBy = "pedido")
-	private List<Item_Pedido> item_pedidos;
-
-	public Integer getId_pedido() {
-		return id_pedido;
+	@OneToMany(mappedBy = "pedido")
+	private Set<ItemPedido> produtos = new HashSet<>();
+	
+	public Integer getidPedido() {
+		return idPedido;
 	}
-
-	public void setId_pedido(Integer id_pedido) {
-		this.id_pedido = id_pedido;
+	public void setidPedido(Integer idPedido) {
+		this.idPedido = idPedido;
 	}
-
-	public Date getData_pedido() {
-		return data_pedido;
+	public Instant getDataPedido() {
+		return dataPedido;
 	}
-
-	public void setData_pedido(Date data_pedido) {
-		this.data_pedido = data_pedido;
+	public void setDataPedido(Instant dataPedido) {
+		this.dataPedido = dataPedido;
 	}
-
-	public Date getData_entrega() {
-		return data_entrega;
+	public Instant getDataEntrega() {
+		return dataEntrega;
 	}
-
-	public void setData_entrega(Date data_entrega) {
-		this.data_entrega = data_entrega;
+	public void setDataEntrega(Instant dataEntrega) {
+		this.dataEntrega = dataEntrega;
 	}
-
-	public Date getData_envio() {
-		return data_envio;
+	public Instant getDataEnvio() {
+		return dataEnvio;
 	}
-
-	public void setData_envio(Date data_envio) {
-		this.data_envio = data_envio;
+	public void setDataEnvio(Instant dataEnvio) {
+		this.dataEnvio = dataEnvio;
 	}
-
-	public Boolean getStatus() {
+	public String getStatus() {
 		return status;
 	}
-
-	public void setStatus(Boolean status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	public BigDecimal getValor_total() {
-		return valor_total;
+	public BigDecimal getValorTotal() {
+		return valorTotal;
 	}
-
-	public void setValor_total(BigDecimal valor_total) {
-		this.valor_total = valor_total;
+	public void setValorTotal(BigDecimal valorTotal) {
+		this.valorTotal = valorTotal;
 	}
-
 	public Cliente getCliente() {
 		return cliente;
 	}
-
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-
-	public List<Item_Pedido> getItem_pedidos() {
-		return item_pedidos;
-	}
-
-	public void setItem_pedidos(List<Item_Pedido> item_pedidos) {
-		this.item_pedidos = item_pedidos;
-	}
 	
+	@Override
+	public String toString() {
+		return "Pedido [idPedido=" + idPedido + ", dataPedido=" + dataPedido + ", dataEntrega="
+				+ dataEntrega + ", dataEnvio=" + dataEnvio + ", status=" + status + ", valorTotal=" + valorTotal
+				+ ", cliente=" + cliente + "]";
+	}
 }

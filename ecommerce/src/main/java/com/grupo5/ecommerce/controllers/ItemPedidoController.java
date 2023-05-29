@@ -14,52 +14,52 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.grupo5.ecommerce.entities.Pedido;
-import com.grupo5.ecommerce.services.PedidoService;
+import com.grupo5.ecommerce.entities.ItemPedido;
+import com.grupo5.ecommerce.services.ItemPedidoService;
 
 @RestController
-@RequestMapping("/pedidos")
-public class PedidoController {
+@RequestMapping("/itempedidos")
+public class ItemPedidoController {
 	
 	@Autowired
-	PedidoService pedidoService;
+	ItemPedidoService itemPedidoService;
 	
 	@GetMapping
-    public ResponseEntity<List<Pedido>> getAllPedidos() {
-        return new ResponseEntity<>(pedidoService.getAllPedidos(),
+    public ResponseEntity<List<ItemPedido>> getAllItemPedidos() {
+        return new ResponseEntity<>(itemPedidoService.getAllItemPedidos(),
                 HttpStatus.OK);
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> getPedidoById(@PathVariable Integer id) {
-        Pedido pedidoResponse = pedidoService.getPedidoById(id);
-        if(null == pedidoResponse)
+    public ResponseEntity<ItemPedido> getItemPedidoById(@PathVariable Integer id) {
+        ItemPedido itemPedidoResponse = itemPedidoService.getItemPedidoById(id);
+        if(null == itemPedidoResponse)
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         else
-            return new ResponseEntity<>(pedidoResponse, HttpStatus.OK);
+            return new ResponseEntity<>(itemPedidoResponse, HttpStatus.OK);
     }
     
     
     @PostMapping
-    public ResponseEntity<Pedido> savePedido(@RequestBody Pedido pedido) {
-        return new ResponseEntity<>(pedidoService.savePedido(pedido),HttpStatus.CREATED);
+    public ResponseEntity<ItemPedido> saveItemPedido(@RequestBody ItemPedido itemPedido) {
+        return new ResponseEntity<>(itemPedidoService.saveItemPedido(itemPedido),HttpStatus.CREATED);
     }
     
     @PutMapping
-    public ResponseEntity<Pedido> updatePedido(@RequestBody Pedido pedido) {
-    	if(pedidoService.getPedidoById(pedido.getidPedido()) != null) {
-            return new ResponseEntity<> (pedidoService.updatePedido(pedido),
+    public ResponseEntity<ItemPedido> updateItemPedido(@RequestBody ItemPedido itemPedido) {
+    	if(itemPedidoService.getItemPedidoById(itemPedido.getIdItemPedido()) != null) {
+            return new ResponseEntity<> (itemPedidoService.updateItemPedido(itemPedido),
                     HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<> (pedido,
+            return new ResponseEntity<> (itemPedido,
                     HttpStatus.NOT_FOUND);
         }
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delPedido(@PathVariable Integer id) {
-        Boolean resp = pedidoService.delPedido(id);
+    public ResponseEntity<Boolean> delItemPedido(@PathVariable Integer id) {
+        Boolean resp = itemPedidoService.delItemPedido(id);
         if(resp)
         	return new ResponseEntity<>(resp,HttpStatus.OK);
         else

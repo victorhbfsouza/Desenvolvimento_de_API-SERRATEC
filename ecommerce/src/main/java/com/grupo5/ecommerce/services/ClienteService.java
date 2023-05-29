@@ -3,43 +3,47 @@ package com.grupo5.ecommerce.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.grupo5.ecommerce.entities.Cliente;
 import com.grupo5.ecommerce.repositories.ClienteRepository;
 
+@Service
 public class ClienteService {
-
+	
 	@Autowired
 	ClienteRepository clienteRepository;
 	
 	public List<Cliente> getAllClientes() {
-		return clienteRepository.findAll();
+		List<Cliente> clientes = clienteRepository.findAll();
+		return clientes;
 	}
 	
 	public Cliente getClienteById(Integer id) {
-		return clienteRepository.findById(id).orElse(null);
+		Cliente cliente = clienteRepository.findById(id).orElse(null);
+		
+		if(cliente==null)
+			return null;
+		
+		return cliente;
 	}
 	
 	public Cliente saveCliente(Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
 	
-	
-	public Cliente updateCliente(Cliente cliente, Integer id) {
+	public Cliente updateCliente(Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
 	
-	public void deleteCliente(Integer id) {
-		clienteRepository.deleteById(id);
-	}
-	
 	public Boolean delCliente(Integer id) {
-		clienteRepository.deleteById(id);
-		Cliente clienteDeletado = clienteRepository.findById(id).orElse(null);
-		if (null == clienteDeletado) {
-			return true;
-		}else {
-			return false;
+		if(clienteRepository.findById(id).orElse(null)!=null) {
+			  clienteRepository.deleteById(id);
+		 if(clienteRepository.findById(id).orElse(null)==null)
+			 return true;
+		  else
+		     return false;
 		}
+		 else return false;
 	}
 }

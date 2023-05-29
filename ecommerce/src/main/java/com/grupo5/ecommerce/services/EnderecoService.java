@@ -3,45 +3,47 @@ package com.grupo5.ecommerce.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.grupo5.ecommerce.entities.Endereco;
 import com.grupo5.ecommerce.repositories.EnderecoRepository;
 
+@Service
 public class EnderecoService {
-
+	
 	@Autowired
 	EnderecoRepository enderecoRepository;
 	
 	public List<Endereco> getAllEnderecos() {
-		return enderecoRepository.findAll();
+		List<Endereco> enderecos = enderecoRepository.findAll();
+		return enderecos;
 	}
 	
 	public Endereco getEnderecoById(Integer id) {
-		return enderecoRepository.findById(id).orElse(null);
+		Endereco endereco = enderecoRepository.findById(id).orElse(null);
+		
+		if(endereco==null)
+			return null;
+		
+		return endereco;
 	}
 	
 	public Endereco saveEndereco(Endereco endereco) {
 		return enderecoRepository.save(endereco);
 	}
 	
-	
-	public Endereco updateEndereco(Endereco endereco, Integer id) {
+	public Endereco updateEndereco(Endereco endereco) {
 		return enderecoRepository.save(endereco);
 	}
 	
-	public void deleteEndereco(Integer id) {
-		enderecoRepository.deleteById(id);
-	}
-	
-	public Boolean delEndereco(Integer id) {
-		enderecoRepository.deleteById(id);
-		Endereco enderecoDeletado = enderecoRepository.findById(id).orElse(null);
-		if (null == enderecoDeletado) {
-			return true;
-		}else {
-			return false;
-		}
-	}
+	   public Boolean delEndereco(Integer id) {
+		  if(enderecoRepository.findById(id).orElse(null)!=null) {
+			  enderecoRepository.deleteById(id);
+			  if(enderecoRepository.findById(id).orElse(null)==null)
+				  return true;
+		     else
+		    	 return false;
+		  }
+		    else return false;
+	      }
 }
-
-

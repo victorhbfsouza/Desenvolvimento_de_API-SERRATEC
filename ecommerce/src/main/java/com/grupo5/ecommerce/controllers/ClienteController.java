@@ -18,49 +18,51 @@ import com.grupo5.ecommerce.entities.Cliente;
 import com.grupo5.ecommerce.services.ClienteService;
 
 @RestController
-@RequestMapping(value = "/clientes")
+@RequestMapping("/clientes")
 public class ClienteController {
 	
 	@Autowired
 	ClienteService clienteService;
 	
 	@GetMapping
-	public ResponseEntity<List<Cliente>> getAllClientes() {
-		return new ResponseEntity<>(clienteService.getAllClientes(),HttpStatus.OK);
-	}
-	
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Cliente> getClienteById(@PathVariable Integer id) {
-		//return clienteService.getClienteById(id);
-		Cliente clienteResponse = clienteService.getClienteById(id);
-		if(null == clienteResponse) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}else {
-			return new ResponseEntity<>(clienteResponse, HttpStatus.OK);
-		}
-	}
-	
-	@PostMapping
-	public ResponseEntity<Cliente> saveCliente(@RequestBody Cliente cliente) {
-		return new ResponseEntity<>(clienteService.saveCliente(cliente), HttpStatus.CREATED);
-	}
-	
-	@PutMapping (value = "/{id}")
-	//@PutMapping(value = "/{id}")
-	public ResponseEntity<Cliente> updateCliente(@RequestBody Cliente cliente, Integer id) {
-		return new ResponseEntity<>(clienteService.updateCliente(cliente, id), HttpStatus.OK);
-	}
-	
-	@DeleteMapping(value = "/{id}")
-		public ResponseEntity<Boolean> delCliente(@PathVariable Integer id) {
-		//return clienteService.delCliente(id);
-		Boolean resp = clienteService.delCliente(id);
-		if(resp) {
-			return new ResponseEntity<>(resp, HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(resp, HttpStatus.NOT_MODIFIED);
-		}	
-	}
+    public ResponseEntity<List<Cliente>> getAllClientes() {
+        return new ResponseEntity<>(clienteService.getAllClientes(),
+                HttpStatus.OK);
+     }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> getClienteById(@PathVariable Integer id) {
+        Cliente clienteResponse = clienteService.getClienteById(id);
+        if(null == clienteResponse)
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        else
+            return new ResponseEntity<>(clienteResponse, HttpStatus.OK);
+    }
+    
+    
+    @PostMapping
+    public ResponseEntity<Cliente> saveCliente(@RequestBody Cliente cliente) {
+        return new ResponseEntity<>(clienteService.saveCliente(cliente),HttpStatus.CREATED);
+    }
+    
+    @PutMapping
+    public ResponseEntity<Cliente> updateCliente(@RequestBody Cliente cliente, Integer id) {
+    	if(clienteService.getClienteById(cliente.getIdCliente()) != null) {
+            return new ResponseEntity<> (clienteService.updateCliente(cliente),
+                    HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<> (cliente,
+                    HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> delCliente(@PathVariable Integer id) {
+        Boolean resp = clienteService.delCliente(id);
+        if(resp)
+        	return new ResponseEntity<>(resp,HttpStatus.OK);
+        else
+        	return new ResponseEntity<>(resp,HttpStatus.NOT_MODIFIED);
+    }
 }
-
-

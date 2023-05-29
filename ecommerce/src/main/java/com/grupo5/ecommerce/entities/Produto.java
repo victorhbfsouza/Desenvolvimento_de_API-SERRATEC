@@ -1,8 +1,13 @@
 package com.grupo5.ecommerce.entities;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,47 +19,51 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "idProduto"
+        )
 @Entity
-@Table (name = "produto")
+@Table(name = "produto")
 public class Produto {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_produto;
+	@Column(name = "id_produto")
+	private Integer idProduto;
 	
-	@Column (name = "nome")
+	@Column(name = "nome")
 	private String nome;
 	
-	@Column (name = "descricao")
+	@Column(name = "descricao")
 	private String descricao;
 	
-	@Column (name = "qtd_estoque")
-	private Integer qtd_estoque;
+	@Column(name = "qtd_estoque")
+	private Integer qtdEstoque;
 	
-	@Column (name = "data_cadastro")
-	private Date data_cadastro;
+	@Column(name = "data_cadastro")
+	private Instant dataCadastro;
 	
-	@Column (name = "valor_unitario")
-	private BigDecimal valor_unitario;
+	@Column(name = "valor_unitario")
+	private BigDecimal valorUnitario;
 	
-	@OneToMany (mappedBy = "categoria")
-	private Integer id_categoria;
+	@Column(name = "imagem")
+	private byte[] imagem; 
 	
-	@ManyToOne
-	@JoinColumn (name = "id_categoria", referencedColumnName = "id_categoria")
-	private Produto produto;
+	@ManyToOne 
+	@JoinColumn(name = "id_categoria", 
+					referencedColumnName = "id_categoria")
+	private Categoria categoria;
 	
-	@OneToMany (mappedBy = "produto")
-	private List<Item_Pedido> item_pedidos;
-	
-	//imagem
+	@OneToMany(mappedBy = "produto")
+	private Set<ItemPedido> pedidos = new HashSet<>();
 
-	public Integer getId_produto() {
-		return id_produto;
+	public Integer getIdProduto() {
+		return idProduto;
 	}
 
-	public void setId_produto(Integer id_produto) {
-		this.id_produto = id_produto;
+	public void setIdProduto(Integer idProduto) {
+		this.idProduto = idProduto;
 	}
 
 	public String getNome() {
@@ -73,52 +82,59 @@ public class Produto {
 		this.descricao = descricao;
 	}
 
-	public Integer getQtd_estoque() {
-		return qtd_estoque;
+	public Integer getQtdEstoque() {
+		return qtdEstoque;
 	}
 
-	public void setQtd_estoque(Integer qtd_estoque) {
-		this.qtd_estoque = qtd_estoque;
+	public void setQtdEstoque(Integer qtdEstoque) {
+		this.qtdEstoque = qtdEstoque;
 	}
 
-	public Date getData_cadastro() {
-		return data_cadastro;
+	public Instant getDataCadastro() {
+		return dataCadastro;
 	}
 
-	public void setData_cadastro(Date data_cadastro) {
-		this.data_cadastro = data_cadastro;
+	public void setDataCadastro(Instant dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
 
-	public BigDecimal getValor_unitario() {
-		return valor_unitario;
+	public BigDecimal getValorUnitario() {
+		return valorUnitario;
 	}
 
-	public void setValor_unitario(BigDecimal valor_unitario) {
-		this.valor_unitario = valor_unitario;
+	public void setValorUnitario(BigDecimal valorUnitario) {
+		this.valorUnitario = valorUnitario;
 	}
 
-	public Integer getId_categoria() {
-		return id_categoria;
+	public byte[] getImagem() {
+		return imagem;
 	}
 
-	public void setId_categoria(Integer id_categoria) {
-		this.id_categoria = id_categoria;
+	public void setImagem(byte[] imagem) {
+		this.imagem = imagem;
 	}
 
-	public Produto getProduto() {
-		return produto;
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
-	public void setProduto(Produto produto) {
-		this.produto = produto;
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
-	public List<Item_Pedido> getItem_pedidos() {
-		return item_pedidos;
+	public Set<ItemPedido> getPedidos() {
+		return pedidos;
 	}
 
-	public void setItem_pedidos(List<Item_Pedido> item_pedidos) {
-		this.item_pedidos = item_pedidos;
+	public void setPedidos(Set<ItemPedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 
+	@Override
+	public String toString() {
+		return "Produto [idProduto=" + idProduto + ", nome=" + nome + ", descricao=" + descricao + ", qtdEstoque="
+				+ qtdEstoque + ", dataCadastro=" + dataCadastro + ", valorUnitario=" + valorUnitario + ", imagem="
+				+ Arrays.toString(imagem) + ", categoria=" + categoria + ", pedidos=" + pedidos + "]";
+	}
+	
 }
