@@ -45,7 +45,7 @@ public class ClienteController {
         return new ResponseEntity<>(clienteService.saveCliente(cliente),HttpStatus.CREATED);
     }
     
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Cliente> updateCliente(@RequestBody Cliente cliente, Integer id) {
     	if(clienteService.getClienteById(cliente.getIdCliente()) != null) {
             return new ResponseEntity<> (clienteService.updateCliente(cliente),

@@ -48,7 +48,10 @@ public class Produto {
 	private BigDecimal valorUnitario;
 	
 	@Column(name = "imagem")
-	private byte[] imagem; 
+	private byte[] imagem;
+	private byte[] imagemDados; 
+    private String imagemNome; 
+    private String imagemTipo;
 	
 	@ManyToOne 
 	@JoinColumn(name = "id_categoria", 
@@ -129,12 +132,37 @@ public class Produto {
 	public void setPedidos(Set<ItemPedido> pedidos) {
 		this.pedidos = pedidos;
 	}
+	
+	public byte[] getImagemDados() {
+		return imagemDados;
+	}
+
+	public void setImagemDados(byte[] imagemDados) {
+		this.imagemDados = imagemDados;
+	}
+
+	public String getImagemNome() {
+		return imagemNome;
+	}
+
+	public void setImagemNome(String imagemNome) {
+		this.imagemNome = imagemNome;
+	}
+
+	public String getImagemTipo() {
+		return imagemTipo;
+	}
+
+	public void setImagemTipo(String imagemTipo) {
+		this.imagemTipo = imagemTipo;
+	}
 
 	@Override
-	public String toString() {
-		return "Produto [idProduto=" + idProduto + ", nome=" + nome + ", descricao=" + descricao + ", qtdEstoque="
-				+ qtdEstoque + ", dataCadastro=" + dataCadastro + ", valorUnitario=" + valorUnitario + ", imagem="
-				+ Arrays.toString(imagem) + ", categoria=" + categoria + ", pedidos=" + pedidos + "]";
-	}
+    public String toString() {
+        return "Produto [idProduto=" + idProduto + ", nome=" + nome + ", descricao=" + descricao + ", qtdEstoque="
+                + qtdEstoque + ", dataCadastro=" + dataCadastro + ", valorUnitario=" + valorUnitario + ", imagemDados="
+                + Arrays.toString(imagemDados) + ", imagemNome=" + imagemNome + ", imagemTipo=" + imagemTipo
+                + ", categoria=" + categoria + ", pedidos=" + pedidos + "]";
+    }
 	
 }

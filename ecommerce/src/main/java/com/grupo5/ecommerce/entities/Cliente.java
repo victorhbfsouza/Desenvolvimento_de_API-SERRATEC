@@ -1,12 +1,13 @@
 package com.grupo5.ecommerce.entities;
 
-import java.time.Instant;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -46,7 +47,7 @@ public class Cliente {
 	private String telefone;
 	
 	@Column(name = "data_nascimento")
-	private Instant dataNascimento;
+	private Date dataNascimento;
 	
 	@Column(name = "user_name")
 	private String username;
@@ -105,11 +106,11 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 
-	public Instant getDataNascimento() {
+	public Date getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Instant dataNascimento) {
+	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 

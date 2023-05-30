@@ -45,7 +45,7 @@ public class ItemPedidoController {
         return new ResponseEntity<>(itemPedidoService.saveItemPedido(itemPedido),HttpStatus.CREATED);
     }
     
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<ItemPedido> updateItemPedido(@RequestBody ItemPedido itemPedido) {
     	if(itemPedidoService.getItemPedidoById(itemPedido.getIdItemPedido()) != null) {
             return new ResponseEntity<> (itemPedidoService.updateItemPedido(itemPedido),

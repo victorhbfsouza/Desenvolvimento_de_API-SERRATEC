@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import com.grupo5.ecommerce.service.UserDetailsImpl;
+import com.grupo5.ecommerce.services.UserDetailsImpl;
 
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

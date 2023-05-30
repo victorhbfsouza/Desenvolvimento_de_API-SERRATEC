@@ -45,7 +45,7 @@ public class EnderecoController {
         return new ResponseEntity<>(enderecoService.saveEndereco(endereco),HttpStatus.CREATED);
     }
     
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Endereco> updateEndereco(@RequestBody Endereco endereco) {
     	if(enderecoService.getEnderecoById(endereco.getIdEndereco()) != null) {
             return new ResponseEntity<> (enderecoService.updateEndereco(endereco),

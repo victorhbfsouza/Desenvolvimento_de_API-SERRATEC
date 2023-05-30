@@ -1,4 +1,4 @@
-package com.grupo5.ecommerce.service;
+package com.grupo5.ecommerce.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,18 +7,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.grupo5.ecommerce.entities.Cliente;
-import com.grupo5.ecommerce.repositories.ClienteRepository;
+import com.grupo5.ecommerce.entities.User;
+import com.grupo5.ecommerce.repositories.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
-	ClienteRepository clienteRepository;
+	UserRepository userRepository;
 
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Cliente user = clienteRepository.findByUsername(username)
+		User user = userRepository.findByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 
 		return UserDetailsImpl.build(user);

@@ -45,7 +45,7 @@ public class CategoriaController {
         return new ResponseEntity<>(categoriaService.saveCategoria(categoria),HttpStatus.CREATED);
     }
     
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Categoria> updateCategoria(@RequestBody Categoria categoria) {
     	if(categoriaService.getCategoriaById(categoria.getIdCategoria()) != null) {
             return new ResponseEntity<> (categoriaService.updateCategoria(categoria),

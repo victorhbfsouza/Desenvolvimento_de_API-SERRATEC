@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -21,7 +22,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.grupo5.ecommerce.service.UserDetailsServiceImpl;
+import com.grupo5.ecommerce.services.UserDetailsServiceImpl;
 
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
@@ -41,12 +42,15 @@ public class WebSecurityConfig {
             .exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandler)) //configura a classe para tratamento da excecao de autenticacao
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //define a politica de sessao
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/**","/swagger-ui/**","/v3/api-docs/**","/actuator/**","/auth/signin","/auth/signup","/roles/**").permitAll() //define as rotas publicas/abertas
-                    //.requestMatchers("/auth/users").hasRole("ADMIN") // autoriza o acesso a rotas por perfil
-                    //.requestMatchers("/instrutores/**", "/telefones/**").hasAnyRole("MODERATOR", "ADMIN") //autoriza o acesso a rotas por perfis
-                    //.requestMatchers("/turmas/**").hasAnyRole("USER", "MODERATOR", "ADMIN") //autoriza o acesso a rotas por perfis
-                    .anyRequest().authenticated()) //demais rotas, nao configuradas acima, so poderao ser acessadas mediante autenticacao
-		;		
+            		.requestMatchers("/roles/**", "/auth/**").permitAll() //define as rotas publicas/abertas
+                    .requestMatchers("/categorias/**", "/clientes/**", "/enderecos/**", "/itempedidos/**", "/pedidos/**", "/produtos/**").hasRole("ADMIN") // autoriza o acesso a rotas por perfil
+                    .requestMatchers("/test/user/**").hasAnyRole("USER", "ADMIN") //autoriza o acesso a rotas por perfis
+                    //.requestMatchers(HttpMethod.DELETE, "/.../").permitAll()
+                    //.requestMatchers(HttpMethod.POST, "/.../**").permitAll() // Permitir POST sem autenticação
+                    //.requestMatchers(HttpMethod.PUT, "/.../").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/instrutores/").permitAll()
+                    .anyRequest().authenticated()) //demais rotas, nao configuradas acima, so poderao ser acessadas mediante autenticacao		
+		;	
 		
 		http.authenticationProvider(authenticationProvider()); //define o provedor de autenticacao
 
@@ -87,5 +91,6 @@ public class WebSecurityConfig {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-	}    
+	}
 }
+

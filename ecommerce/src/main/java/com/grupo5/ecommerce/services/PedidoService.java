@@ -14,6 +14,9 @@ public class PedidoService {
 	@Autowired
 	PedidoRepository pedidoRepository;
 	
+	@Autowired
+	EmailService emailService;
+	
 	public List<Pedido> getAllPedidos() {
 		List<Pedido> pedidos = pedidoRepository.findAll();
 		return pedidos;
@@ -29,6 +32,7 @@ public class PedidoService {
 	}
 	
 	public Pedido savePedido(Pedido pedido) {
+		emailService.enviarEmail("victor.h.souza8@aluno.senai.br", "Pedido realizado com sucesso!", pedidoDTO.toString());
 		return pedidoRepository.save(pedido);
 	}
 	

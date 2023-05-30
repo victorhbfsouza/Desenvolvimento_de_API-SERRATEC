@@ -45,7 +45,7 @@ public class PedidoController {
         return new ResponseEntity<>(pedidoService.savePedido(pedido),HttpStatus.CREATED);
     }
     
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Pedido> updatePedido(@RequestBody Pedido pedido) {
     	if(pedidoService.getPedidoById(pedido.getidPedido()) != null) {
             return new ResponseEntity<> (pedidoService.updatePedido(pedido),
