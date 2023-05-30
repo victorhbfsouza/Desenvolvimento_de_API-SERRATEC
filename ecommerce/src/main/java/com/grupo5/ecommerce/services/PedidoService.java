@@ -2,9 +2,11 @@ package com.grupo5.ecommerce.services;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.grupo5.ecommerce.dto.PedidoDTO;
 import com.grupo5.ecommerce.entities.Pedido;
 import com.grupo5.ecommerce.exceptions.PedidoNotFoundException;
 import com.grupo5.ecommerce.repositories.PedidoRepository;
@@ -17,6 +19,9 @@ public class PedidoService {
 	
 	@Autowired
 	EmailService emailService;
+	
+	@Autowired
+	ModelMapper	modelMapper;
 	
 	public List<Pedido> getAllPedidos() {
 		List<Pedido> pedidos = pedidoRepository.findAll();
@@ -34,8 +39,16 @@ public class PedidoService {
 	}
 	
 	public Pedido savePedido(Pedido pedido) {
-		emailService.enviarEmail("victor.h.souza8@aluno.senai.br", "Pedido realizado com sucesso!", pedidoDTO.toString());
-		return pedidoRepository.save(pedido);
+
+	
+		pedido.AddTime();
+		
+		Pedido pedidoSalvo= pedidoRepository.save(pedido);
+		
+		PedidoDTO pedidoDtoResponse = modelMapper.map(pedidoSalvo, PedidoDTO.class);
+		emailService.enviarEmail("victor.h.souza8@aluno.senai.br", "Pedido realizado com sucesso!", pedidoDtoResponse.toString());
+		
+		return pedidoSalvo;
 	}
 	
 	public Pedido updatePedido(Pedido pedido) {

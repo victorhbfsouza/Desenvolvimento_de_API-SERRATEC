@@ -107,4 +107,16 @@ public class PedidoDTO {
 		this.produtos = produtos;
 	}
 	
+	@Override
+	 public String toString() {
+		
+		String result = "idPedido - "+ idPedido + "\n" + dataPedido + "\n" + dataEntrega + "\n" + dataEnvio + "\n" + status + "\n" + valorTotal;
+		
+		if(cliente != null)
+			result = result + "\n" + cliente;
+		
+		result = result + "\n" + produtos;
+		
+		return result;
+	}	
 }

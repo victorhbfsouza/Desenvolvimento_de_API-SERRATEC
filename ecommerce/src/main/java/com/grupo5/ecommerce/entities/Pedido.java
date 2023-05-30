@@ -98,6 +98,12 @@ public class Pedido {
 		this.cliente = cliente;
 	}
 	
+	public void AddTime() {
+		dataEntrega = Instant.now();
+		dataPedido = Instant.now();
+		dataEnvio = Instant.now();
+	}
+	
 	@Override
 	public String toString() {
 		return "Pedido [idPedido=" + idPedido + ", dataPedido=" + dataPedido + ", dataEntrega="
