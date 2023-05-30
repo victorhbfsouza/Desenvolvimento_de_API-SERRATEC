@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grupo5.ecommerce.entities.Cliente;
+import com.grupo5.ecommerce.exceptions.ClienteNotFoundException;
 import com.grupo5.ecommerce.repositories.ClienteRepository;
 
 @Service
@@ -20,9 +21,10 @@ public class ClienteService {
 	}
 	
 	public Cliente getClienteById(Integer id) {
-		Cliente cliente = clienteRepository.findById(id).orElse(null);
+		Cliente cliente = clienteRepository.findById(id).orElseThrow(()
+				-> new ClienteNotFoundException(id));
 		
-		if(cliente==null)
+		if(cliente == null)
 			return null;
 		
 		return cliente;

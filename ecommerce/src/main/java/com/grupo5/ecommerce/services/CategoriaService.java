@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grupo5.ecommerce.entities.Categoria;
+import com.grupo5.ecommerce.exceptions.CategoriaNotFoundException;
 import com.grupo5.ecommerce.repositories.CategoriaRepository;
 
 @Service
@@ -20,9 +21,10 @@ public class CategoriaService {
 	}
 	
 	public Categoria getCategoriaById(Integer id) {
-		Categoria categoria = categoriaRepository.findById(id).orElse(null);
+		Categoria categoria = categoriaRepository.findById(id).orElseThrow(()
+				-> new CategoriaNotFoundException(id));
 		
-		if(categoria==null)
+		if(categoria == null)
 			return null;
 		
 		return categoria;

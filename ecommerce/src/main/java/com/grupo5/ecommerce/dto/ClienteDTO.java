@@ -26,9 +26,9 @@ public class ClienteDTO {
 	
 	private Set<RoleDTO> roles = new HashSet<>();
 
-	private EnderecoDTO endereco; // relacionando a classe endereço com o cliente
+	private EnderecoDTO endereco; 
 
-	private List<PedidoDTO> pedido; // 1 cliente pode ter N pedidos
+	private List<PedidoDTO> pedido; 
 
 	public ClienteDTO(Integer numeroIdCliente, Integer cpf, String nome, String email, String telefone,
 			Instant dataNascimento, String username, String password, Set<RoleDTO> roles, EnderecoDTO endereco,

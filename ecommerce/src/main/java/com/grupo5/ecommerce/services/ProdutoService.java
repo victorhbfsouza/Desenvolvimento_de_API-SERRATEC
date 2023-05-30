@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo5.ecommerce.entities.Produto;
+import com.grupo5.ecommerce.exceptions.ProdutoNotFoundException;
 import com.grupo5.ecommerce.repositories.ProdutoRepository;
 
 @Service
@@ -24,7 +25,8 @@ public class ProdutoService {
 	}
 	
 	public Produto getProdutoById(Integer id) {
-		Produto produto = produtoRepository.findById(id).orElse(null);
+		Produto produto = produtoRepository.findById(id).orElseThrow(()
+				-> new ProdutoNotFoundException(id));
 		
 		if(produto==null)
 			return null;

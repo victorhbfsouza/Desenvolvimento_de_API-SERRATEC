@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.grupo5.ecommerce.dto.ViaCepDTO;
 import com.grupo5.ecommerce.entities.Endereco;
+import com.grupo5.ecommerce.exceptions.EnderecoNotFoundException;
 import com.grupo5.ecommerce.repositories.EnderecoRepository;
 
 @Service
@@ -24,7 +25,8 @@ public class EnderecoService {
 	}
 
 	public Endereco getEnderecoById(Integer id) {
-		Endereco endereco = enderecoRepository.findById(id).orElse(null);
+		Endereco endereco = enderecoRepository.findById(id).orElseThrow(()
+				-> new EnderecoNotFoundException(id));
 
 		if (endereco == null)
 			return null;

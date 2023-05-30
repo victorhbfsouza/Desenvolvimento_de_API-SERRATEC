@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grupo5.ecommerce.entities.Pedido;
+import com.grupo5.ecommerce.exceptions.PedidoNotFoundException;
 import com.grupo5.ecommerce.repositories.PedidoRepository;
 
 @Service
@@ -23,7 +24,8 @@ public class PedidoService {
 	}
 	
 	public Pedido getPedidoById(Integer id) {
-		Pedido pedido = pedidoRepository.findById(id).orElse(null);
+		Pedido pedido = pedidoRepository.findById(id).orElseThrow(()
+				-> new PedidoNotFoundException(id));
 		
 		if(pedido==null)
 			return null;
