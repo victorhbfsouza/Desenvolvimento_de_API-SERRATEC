@@ -43,12 +43,16 @@ public class WebSecurityConfig {
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //define a politica de sessao
             .authorizeHttpRequests(auth -> auth
             		.requestMatchers("/roles/**", "/auth/**").permitAll() //define as rotas publicas/abertas
-                    .requestMatchers("/categorias/**", "/clientes/**", "/enderecos/**", "/itempedidos/**", "/pedidos/**", "/produtos/**").hasRole("ADMIN") // autoriza o acesso a rotas por perfil
+            		.requestMatchers(HttpMethod.GET, "/produtos/**", "/categorias/**").permitAll()
+            		.requestMatchers("/itempedidos/**", "/enderecos/**", "/clientes/**", "/produtos/**").hasAnyRole("ADMIN", "USER")
+            		.requestMatchers("/pedidos/**").hasAnyRole("USER", "ADMIN") // autoriza o acesso a rotas por perfil
+                    .requestMatchers(HttpMethod.POST, "/categorias/**", "/produtos/**").hasRole("ADMIN") // autoriza o acesso a rotas por perfil
+                    .requestMatchers(HttpMethod.PUT, "/categorias/**", "/produtos/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/categorias/**", "/produtos/**").hasRole("ADMIN")
                     .requestMatchers("/test/user/**").hasAnyRole("USER", "ADMIN") //autoriza o acesso a rotas por perfis
                     //.requestMatchers(HttpMethod.DELETE, "/.../").permitAll()
                     //.requestMatchers(HttpMethod.POST, "/.../**").permitAll() // Permitir POST sem autenticação
                     //.requestMatchers(HttpMethod.PUT, "/.../").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/instrutores/").permitAll()
                     .anyRequest().authenticated()) //demais rotas, nao configuradas acima, so poderao ser acessadas mediante autenticacao		
 		;	
 		

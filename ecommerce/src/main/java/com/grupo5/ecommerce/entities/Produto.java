@@ -156,6 +156,10 @@ public class Produto {
 	public void setImagemTipo(String imagemTipo) {
 		this.imagemTipo = imagemTipo;
 	}
+	
+	public void AddTime() {
+		dataCadastro = Instant.now();
+	}
 
 	@Override
     public String toString() {
