@@ -110,12 +110,12 @@ public class PedidoDTO {
 	@Override
 	 public String toString() {
 		
-		String result = "idPedido - "+ idPedido + "\n" + dataPedido + "\n" + dataEntrega + "\n" + dataEnvio + "\n" + status + "\n" + valorTotal;
+		String result = "Pedido número: "+ idPedido + "\n\nData do Pedido: " + dataPedido + "\nData de Entrega: " + dataEntrega + "\nData de envio:" + dataEnvio + "\n\n Status do pedido: " + status + "\n\nValor total do pedido: R$" + valorTotal;
 		
 		if(cliente != null)
-			result = result + "\n" + cliente;
+			result = result + "\n\nCliente: " + cliente;
 		
-		result = result + "\n" + produtos;
+		result = result + "\nProdutos do pedido: " + produtos;
 		
 		return result;
 	}	

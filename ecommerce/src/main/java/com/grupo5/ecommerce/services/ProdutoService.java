@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.grupo5.ecommerce.entities.Produto;
 import com.grupo5.ecommerce.exceptions.ProdutoNotFoundException;
 import com.grupo5.ecommerce.repositories.ProdutoRepository;
@@ -59,20 +60,23 @@ public class ProdutoService {
 	    	  
 	      }
 
-	   public Produto saveimagemProduto (String produto , MultipartFile file) throws IOException {
-           Produto objProduto;
-           try {
-                ObjectMapper objMapper = new ObjectMapper();
-                objProduto = objMapper.readValue(produto, Produto.class);
-            } catch (IOException e) {
-                throw new IOException("Não foi possivel dessa vez");
-            } 
-            Produto produto1 = new Produto(); 
-            produto1.setNome(objProduto.getNome());
-            produto1.setImagemDados(file.getBytes());
-            produto1.setImagemNome(file.getName());
-            produto1.setImagemTipo(file.getContentType());
+	   public Produto saveimagemProduto(String produtoJson, MultipartFile file) throws IOException {
+		    Produto objProduto;
+		  
+		    try {
+		        ObjectMapper objMapper = new ObjectMapper();
+		        objMapper.registerModule(new JavaTimeModule());
+		        objProduto = objMapper.readValue(produtoJson, Produto.class);
+		        System.out.println(objProduto);
+		    } catch (IOException e) {
+		        throw new IOException("Erro ao converter a representação JSON do produto", e);
+		    } 
+		  
+		    objProduto.setImagemDados(file.getBytes());
+		    objProduto.setImagemNome(file.getName());
+		    objProduto.setImagemTipo(file.getContentType());
 
-            return produtoRepository.save(produto1);
-       }
+		    return produtoRepository.save(objProduto);
+		}
+
 }
