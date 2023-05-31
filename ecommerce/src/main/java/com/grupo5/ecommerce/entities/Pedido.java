@@ -98,18 +98,6 @@ public class Pedido {
 		this.cliente = cliente;
 	}
 	
-	public Integer getIdPedido() {
-		return idPedido;
-	}
-	public void setIdPedido(Integer idPedido) {
-		this.idPedido = idPedido;
-	}
-	public Set<ItemPedido> getProdutos() {
-		return produtos;
-	}
-	public void setProdutos(Set<ItemPedido> produtos) {
-		this.produtos = produtos;
-	}
 	public void AddTime() {
 		dataEntrega = Instant.now();
 		dataPedido = Instant.now();

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.grupo5.ecommerce.dto.RelatorioPedidoDTO;
 import com.grupo5.ecommerce.entities.Pedido;
 import com.grupo5.ecommerce.services.PedidoService;
 
@@ -38,15 +37,6 @@ public class PedidoController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         else
             return new ResponseEntity<>(pedidoResponse, HttpStatus.OK);
-    }
-    
-    @GetMapping("/relatorio/{id}")
-    public ResponseEntity<RelatorioPedidoDTO> getRelatorioById(@PathVariable Integer id) {
-        RelatorioPedidoDTO relatorio = pedidoService.geradorRelatorio(id);
-        if(null == relatorio)
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        else
-            return new ResponseEntity<>(relatorio, HttpStatus.OK);
     }
     
     

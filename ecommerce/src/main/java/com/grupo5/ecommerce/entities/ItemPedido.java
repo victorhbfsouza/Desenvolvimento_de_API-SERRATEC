@@ -31,16 +31,16 @@ public class ItemPedido {
 	private Integer quantidade;
 	
 	@Column ( name = "preco_venda")
-	private Double precoVenda;
+	private BigDecimal precoVenda;
 	
 	@Column ( name = "percentual_desconto")
-	private Double percentualDesconto;
+	private BigDecimal percentualDesconto;
 	
 	@Column ( name = "valor_bruto")
-	private Double valorBruto;
+	private BigDecimal valorBruto;
 	
 	@Column ( name = "valor_liquido")
-	private Double valorLiquido;
+	private BigDecimal valorLiquido;
 	
 	@ManyToOne 
 	@JoinColumn(name = "id_pedido", 
@@ -68,35 +68,35 @@ public class ItemPedido {
 		this.quantidade = quantidade;
 	}
 
-	public Double getPrecoVenda() {
+	public BigDecimal getPrecoVenda() {
 		return precoVenda;
 	}
 
-	public void setPrecoVenda(Double precoVenda) {
+	public void setPrecoVenda(BigDecimal precoVenda) {
 		this.precoVenda = precoVenda;
 	}
 
-	public Double getPercentualDesconto() {
+	public BigDecimal getPercentualDesconto() {
 		return percentualDesconto;
 	}
 
-	public void setPercentualDesconto(Double percentualDesconto) {
+	public void setPercentualDesconto(BigDecimal percentualDesconto) {
 		this.percentualDesconto = percentualDesconto;
 	}
 
-	public Double getValorBruto() {
+	public BigDecimal getValorBruto() {
 		return valorBruto;
 	}
 
-	public void setValorBruto(Double valorBruto) {
+	public void setValorBruto(BigDecimal valorBruto) {
 		this.valorBruto = valorBruto;
 	}
 
-	public Double getValorLiquido() {
+	public BigDecimal getValorLiquido() {
 		return valorLiquido;
 	}
 
-	public void setValorLiquido(Double valorLiquido) {
+	public void setValorLiquido(BigDecimal valorLiquido) {
 		this.valorLiquido = valorLiquido;
 	}
 
