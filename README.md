@@ -4,4 +4,4 @@ Repositório para a matéria de Desenvolvimento de API Restful a Objetos da resi
 </div>
 
 <h1>Linguagem utilizada</h1>
-  <img align="center" alt="JAVA" height="34" width="70" src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white">>
+  <img align="center" alt="JAVA" height="34" width="70" src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white">
